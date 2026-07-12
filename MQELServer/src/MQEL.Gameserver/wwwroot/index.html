@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MQEL: Reloaded — Server</title>
+  <link rel="stylesheet" href="ui/core.css" />
+  <link rel="stylesheet" href="ui/components.css" />
+</head>
+<body>
+
+<header class="mq-header">
+  <div class="mq-brand">
+    <div class="mq-brand-title">The Mighty Quest</div>
+    <div class="mq-brand-sub">for Epic Loot</div>
+    <div class="mq-brand-reloaded">Reloaded</div>
+    <div class="mq-brand-tag">Server Administration</div>
+  </div>
+  <div class="mq-header-right">
+    <div class="mq-tokrow">Admin token:
+      <input id="tok" class="mq-input" type="password" placeholder="X-Admin-Token" oninput="saveTok()" size="16">
+      <a href="/health" target="_blank">/health</a>
+    </div>
+    <div class="mq-status mq-on">Server Online <span style="font-weight:normal;font-size:10px;color:#3a6072;margin-left:6px">auto-refresh 3s</span></div>
+  </div>
+</header>
+
+<div class="mq-shell">
+
+  <!-- Services -->
+  <div class="mq-section">
+    <div class="mq-sec"><span class="mq-sec-bar"></span>Services<span class="mq-sec-line"></span></div>
+    <div class="mq-cards" id="cards"></div>
+  </div>
+
+  <!-- Accounts -->
+  <div class="mq-section">
+    <div class="mq-sec"><span class="mq-sec-bar"></span>Accounts<span class="mq-sec-line"></span></div>
+    <div class="mq-tbl-wrap">
+      <table class="mq-table" id="accts">
+        <thead><tr><th>Account ID</th><th>Name</th><th>Hero</th><th>Level</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="acctEditor" class="mq-editor" style="display:none">
+      <div class="mq-editor-hd">
+        <div class="mq-editor-title">Edit account <span id="aeId" class="mq-editor-id"></span></div>
+        <a onclick="closeAcct()">close ×</a>
+      </div>
+      <div class="mq-muted" id="aeHero" style="margin-bottom:13px"></div>
+      <div class="mq-fields">
+        <div class="mq-field"><span class="mq-label">Display Name</span><input id="aeName"  class="mq-input" size="16"></div>
+        <div class="mq-field"><span class="mq-label">Gold</span>        <input id="aeGold"  class="mq-input" type="number" min="0" size="8"></div>
+        <div class="mq-field"><span class="mq-label">Life Force</span>  <input id="aeLife"  class="mq-input" type="number" min="0" size="8"></div>
+        <div class="mq-field"><span class="mq-label">Hero Level</span>  <input id="aeLevel" class="mq-input" type="number" min="1" size="6"></div>
+        <div class="mq-field"><span class="mq-label">XP</span>          <input id="aeXp"    class="mq-input" type="number" min="0" size="8"></div>
+      </div>
+      <div class="mq-sub-hd">Completed Tutorial Assignments</div>
+      <div id="aeAssign" class="mq-toggles"></div>
+      <button class="mq-btn" onclick="saveAcct()">Save Account</button>
+      <button class="mq-btn-ghost" onclick="resetAcct()">Reset to starter ↺</button>
+      <span class="mq-notice" id="aeMsg"></span>
+    </div>
+  </div>
+
+  <!-- Save-States -->
+  <div class="mq-section" id="snapSection" style="display:none">
+    <div class="mq-sec"><span class="mq-sec-bar"></span>Save-States<span class="mq-sec-line"></span></div>
+    <p class="mq-help" style="margin-bottom:11px">Named snapshots of the dev account's full graph — capture one at any tutorial step, then restore it onto the live account to jump straight back in (no replay).</p>
+    <div class="mq-tbl-wrap">
+      <table class="mq-table" id="snaps">
+        <thead><tr><th>Name</th><th>Display Name</th><th>Hero</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="mq-fields" style="margin-top:12px; align-items:flex-end">
+      <input id="snapName" class="mq-input" placeholder="snapshot name (e.g. at-witch)" size="24">
+      <button class="mq-btn-ghost" onclick="captureSnap()">Capture Live →</button>
+      <span class="mq-notice" id="snapMsg"></span>
+    </div>
+  </div>
+
+  <!-- Logs -->
+  <div class="mq-section">
+    <div class="mq-sec"><span class="mq-sec-bar"></span>Server Log<span class="mq-sec-line"></span></div>
+    <div class="mq-log">
+      <div class="mq-log-bar"><span class="mq-log-title">mqel-trace.log</span><a onclick="refreshLogs()" style="font-size:10px;font-weight:bold;letter-spacing:.1em;text-transform:uppercase">Refresh</a></div>
+      <pre id="logBody" class="mq-log-body"></pre>
+    </div>
+  </div>
+
+  <p class="mq-notice mq-notice-err" id="err"></p>
+</div>
+
+<footer class="mq-footer">
+  <span>The Mighty Quest for Epic Loot: Reloaded — Private Server Project</span>
+  <a href="https://discord.gg/FcGF2E7U5" target="_blank" rel="noopener">Discord</a>
+  <a href="#" target="_blank" rel="noopener">GitHub</a>
+</footer>
+
+<script src="ui/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "Result": {
+    "AttackId": "3039",
+    "Castle": {},
+    "CastleType": 1,
+    "Level": 1,
+    "Hero": {},
+    "AttackerDisplayName": "Champion",
+    "CreatureLoot": [{"Id":45,"Gold":1,"Xp":2,"LifeForce":1,"HealthOrbFragments":1},{"Id":46,"Gold":9,"Xp":2,"LifeForce":1,"HealthOrbFragments":1},{"Id":47,"Gold":1,"Xp":2,"LifeForce":2,"HealthOrbFragments":1},{"Id":48,"Gold":1,"Xp":2,"HealthOrbFragments":1},{"Id":49,"Gold":1,"Xp":2,"LifeForce":1,"HealthOrbFragments":1},{"Id":50,"Gold":3,"Xp":2,"LifeForce":5,"HealthOrbFragments":1},{"Id":68,"Gold":2,"Xp":2,"HealthOrbFragments":1},{"Id":58,"Gold":2,"Xp":8,"LifeForce":4,"HealthOrbFragments":16},{"Id":65,"Gold":1,"Xp":2,"LifeForce":2,"HealthOrbFragments":1},{"Id":56,"Gold":1,"Xp":12,"LifeForce":1,"HealthOrbFragments":24},{"Id":44,"Gold":1,"Xp":2,"LifeForce":5,"HealthOrbFragments":1},{"Id":69,"Gold":2,"Xp":2,"HealthOrbFragments":1},{"Id":81,"Gold":1,"Xp":2,"LifeForce":1,"HealthOrbFragments":4},{"Id":70,"Gold":2,"Xp":2,"LifeForce":1,"HealthOrbFragments":1},{"Id":59,"Gold":3,"Xp":8,"LifeForce":2,"HealthOrbFragments":16},{"Id":57,"Gold":1,"Xp":8,"LifeForce":5,"HealthOrbFragments":16},{"Id":66,"Gold":2,"Xp":2,"LifeForce":3,"HealthOrbFragments":1}],
+    "TrapLoot": [{"Id":1,"InventoryItems":[{"$type":"HyperQuest.GameServer.Contracts.HeroEquipmentItem, HyperQuest.GameServer.Contracts","ItemLevel":1,"ArchetypeId":2,"PrimaryStatsModifiers":[1,1,1],"IsSellable":true,"TemplateId":53}]},{"Id":2}],
+    "AttackRandomSeed": 12345,
+    "UnlockedEmotes": [1, 2, 3],
+    "AttackUserSettings": {},
+    "VictoryConditionRewardRatios": [1, 0.75, 0.5],
+    "FreeInventorySlotsCount": 42,
+    "TreasureRoomStealableIGC": {"CurrencyType": 2, "Amount": 10},
+    "TreasureRoomStealableLifeForce": {"CurrencyType": 4},
+    "IsTutorial": true,
+    "TreasureRoomGoldRatio": 0.3,
+    "TreasureRoomLifeForceRatio": 0.3,
+    "AttackType": 5,
+    "IsResurrectionAllowed": true
+  }
+}

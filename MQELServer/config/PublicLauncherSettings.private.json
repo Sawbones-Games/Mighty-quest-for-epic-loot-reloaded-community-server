@@ -1,0 +1,19 @@
+{
+  "LauncherWebSiteUrl": "http://localhost:8080/mqel-live/launcher/load/",
+  "GameServerUrl": "http://localhost:8080/mqel-live.gameserver",
+  "PatcherServiceUrl": "http://localhost:8080/mqel-live.distribution",
+  "BackgroundImageUrl": "http://localhost:8080/static/empty.png",
+  "MaintenanceModeVerificationUrl": "http://localhost:8080/mqel-live/launcher/",
+  "EnvironmentName": "mqel-live",
+  "EnableConsoleWin": false,
+  "LogLevel": 0,
+  "WindowWidth": 822,
+  "WindowHeight": 588,
+  "ViewTop": 12,
+  "ViewLeft": 9,
+  "ViewWidth": 787,
+  "ViewHeight": 552,
+  "HttpCompression": "true",
+  "TwitterFeedName": "Sir_Painhammer",
+  "TwitterFeedWidgetID": "486208300657045504"
+}

@@ -1,0 +1,16 @@
+root = true
+
+# §1.7 — pin UTF-8 so editors stop re-saving sources as 1252 and producing mojibake
+# (e.g. "â€¦"/"â€”") in the comment-heavy protocol files.
+[*]
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+
+[*.cs]
+indent_size = 4
+
+[*.{json,js,css,html}]
+indent_size = 2

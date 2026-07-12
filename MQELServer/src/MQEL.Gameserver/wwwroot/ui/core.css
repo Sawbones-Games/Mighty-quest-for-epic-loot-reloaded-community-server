@@ -1,0 +1,40 @@
+/* ═══════════════════════════════════════════════════════════════
+   The Mighty Quest for Epic Loot: Reloaded — Admin UI · CORE
+   Palette · font · page chrome.  "Sky Keep" skin.
+   Note: the original display font was a proprietary game asset and is
+   NOT shipped here — headings fall back to the browser serif stack.
+═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --radius:6px;
+  /* brand */
+  --brand:#0c2230; --brand-2:#1f5a78; --brand-shadow:0 2px 10px rgba(255,255,255,.45);
+  --reloaded:#8f5e0f; --reloaded-rule:#b9842c; --reloaded-shadow:0 1px 0 rgba(255,255,255,.4);
+  --tag:#0c3a4e; --tag-shadow:0 1px 0 rgba(255,255,255,.5); --rule:#bb8a3a;
+  /* surfaces */
+  --header-bg:
+    radial-gradient(135% 175% at 85% -40%, rgba(255,240,194,.95), rgba(255,240,194,0) 56%),
+    radial-gradient(120% 150% at 3% 140%, rgba(166,213,236,.88), rgba(166,213,236,0) 60%),
+    linear-gradient(180deg, #aedaed 0%, #cee4dc 46%, #efd79c 100%);
+  --sec-bg:rgba(7,23,30,.62); --border:rgba(9,40,52,.55); --border-hi:rgba(120,190,220,.40); --sec-shadow:0 4px 22px rgba(4,18,28,.30);
+  --panel:linear-gradient(170deg, rgba(8,28,38,.90), rgba(5,18,26,.94)); --panel-shadow:0 3px 18px rgba(0,0,0,.40);
+  --th-bg:rgba(0,0,0,.32); --row-hover:rgba(127,198,230,.07);
+  --input-bg:rgba(3,14,20,.85); --chip-bg:rgba(41,90,112,.30); --chip-on:rgba(255,190,52,.16);
+  --log-bg:rgba(4,16,24,.92); --footer-bg:rgba(4,14,20,.78);
+  /* text + accents */
+  --heading:#dff2fb; --text:#e8f6ff; --text-dim:#a9cede; --muted:#5d7c86; --accent:#7fc6e6;
+  --card-top:#57a8c7; --link:#9fd6ef; --gold:#ffbe34; --green:#5fd06a; --red:#ff5a45; --warn:#e0a92e;
+  /* glossy button (modelled on the game's beveled blue play button) */
+  --btn-fg:#06303f; --btn-br:#0a4a63; --btn-grad:linear-gradient(180deg,#bfeaff,#5fb6dd 52%,#3f97c4);
+  --btn-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 2px 6px rgba(0,0,0,.4); --btn-text-shadow:0 1px 0 rgba(255,255,255,.4);
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html,body { min-height:100vh; }
+body {
+  font-family:'Verdana','Segoe UI',system-ui,sans-serif; font-size:14px; color:var(--text);
+  background:linear-gradient(180deg,#a9d6ec 0%, #cfe3d6 42%, #f0d9a4 100%) fixed;
+}
+a { color:var(--link); cursor:pointer; text-decoration:none; transition:color .12s; }
+a:hover { color:var(--text); }
+code { font-family:'Consolas','Courier New',monospace; font-size:.9em; color:var(--accent); }

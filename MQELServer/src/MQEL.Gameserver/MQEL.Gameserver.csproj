@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\MQEL.Core\MQEL.Core.csproj" />
+    <ProjectReference Include="..\MQEL.Data\MQEL.Data.csproj" />
+    <ProjectReference Include="..\MQEL.Verification\MQEL.Verification.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Bundled game-design data + file-backed static responses travel with the app so a published /
+         Docker build finds them next to the DLL (see ItemCatalog.FindDataRoot / the responses/ loaders). -->
+    <Content Update="data\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Update="responses\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,42 @@
+# ── Build outputs ────────────────────────────────────────────────────────────
+bin/
+obj/
+out/
+publish/
+**/publish/
+artifacts/
+
+# ── .NET / IDE ───────────────────────────────────────────────────────────────
+*.dll
+*.exe
+*.pdb
+*.cache
+*.user
+*.suo
+.vs/
+.idea/
+*.nupkg
+
+# ── Runtime data (per-account SQLite store — not source) ─────────────────────
+*.db
+*.db-wal
+*.db-shm
+
+# ── Dev TLS certs (regenerate locally) ───────────────────────────────────────
+*.pfx
+**/mqel-ca.pem
+**/envcheck.txt
+
+# ── Captured client traffic (may contain Steam auth tickets / PII) ───────────
+**/captures/
+
+# ── Logs / scratch ───────────────────────────────────────────────────────────
+*.log
+**/*.log
+
+# ── Game data — Ubisoft's copyrighted assets, NEVER committed. Supply your own.
+/game-data/
+
+# ── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
