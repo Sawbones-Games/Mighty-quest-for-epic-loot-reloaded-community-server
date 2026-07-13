@@ -2,7 +2,7 @@ using System.Text.Json.Nodes;
 
 // Loads ALL campaign missions (objectives) from the decrypted spec DB — the data-driven source for the
 // MissionManager. One file: GeneralSettings/OBJECTIVESETTINGS.JSON ("Objectives":[...]). Every distinct
-// condition/reward $type in that file is finite and mapped here;
+// condition/reward $type in that file is finite and mapped here (see code-analysis/rest-api/objectives.md);
 // nothing is hardcoded per-mission. New custom missions later = more MissionDefs feeding the same engine.
 sealed class MissionCatalog
 {
@@ -40,11 +40,11 @@ sealed class MissionCatalog
     static int I(JsonNode? n, int dflt = 0) => n is null ? dflt : (int?)n ?? dflt;
     static string? S(JsonNode? n) => (string?)n;
 
-    public static MissionCatalog Load(string dataRoot)
+    public static MissionCatalog Load(string specRoot)
     {
         var c = new MissionCatalog();
         var doc = JsonNode.Parse(File.ReadAllText(
-            Path.Combine(dataRoot, "objectives", "objective-settings.json")))!;
+            Path.Combine(specRoot, "GameplaySettings", "GeneralSettings", "OBJECTIVESETTINGS.JSON")))!;
         foreach (var o in doc["Objectives"]?.AsArray() ?? new JsonArray())
         {
             if (o is not JsonObject obj || obj["Id"] is null) continue;
@@ -121,6 +121,6 @@ sealed class MissionCatalog
         return c;
     }
 
-    // Bundled data-folder lookup (shared convention with ItemCatalog).
-    public static string? FindDataRoot() => ItemCatalog.FindDataRoot();
+    // game-data/settings-extracted lookup (shared convention with ItemCatalog).
+    public static string? FindSpecRoot() => ItemCatalog.FindSpecRoot();
 }

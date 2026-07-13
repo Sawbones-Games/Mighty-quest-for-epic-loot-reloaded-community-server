@@ -1,0 +1,60 @@
+{
+ "requests": {
+  "ChooseDisplayName": {
+   "method": "POST",
+   "suffix": "AccountService.hqs/ChooseDisplayName",
+   "query": "",
+   "body": "{\"displayName\":\"Thrax\"}"
+  },
+  "ChooseFirstHero": {
+   "method": "POST",
+   "suffix": "HeroService.hqs/ChooseFirstHero",
+   "query": "",
+   "body": "{\"heroSpecContainerId\":5}"
+  },
+  "StartAttack": {
+   "method": "POST",
+   "suffix": "AttackService.hqs/StartAttack",
+   "query": "",
+   "body": "{\"castleAccountId\":2,\"castleType\":1,\"ubisoftCompetitionId\":0,\"attackSource\":4,\"attackType\":0,\"attackRegionId\":0,\"revengeAttackId\":\"\",\"userSettings\":{\"MinHeroItemQualityToPickUp\":0,\"UseCameraDamping\":true}}"
+  },
+  "EndAttack": {
+   "method": "POST",
+   "suffix": "AttackService.hqs/EndAttack",
+   "query": "",
+   "body": "{\"endAttackParams\":{\"AttackFrameCount\":4782,\"AttackFrameDuration\":0.03333333,\"CastleRating\":0,\"Cheated\":false,\"CollectedTrapIds\":[],\"CompletionType\":0,\"ConsumableUsed\":[],\"DeactivatedTrapIds\":[],\"DeathDetails\":[],\"DestroyedDecorationIds\":[126,111,143,112,113,142,147,146,155,156,165,174],\"DestroyedTrapIds\":[],\"Duration\":0,\"EndAttackMessage\":\"\",\"EngineTracking\":{\"EngineTrackingAverageFps\":39.22293472,\"EngineTrackingTimeBetween20and59Fps\":189.18711854,\"EngineTrackingTimeGreater59Fps\":0.0,\"EngineTrackingTimeLess20Fps\":4.37308932},\"HitByCreatures\":[],\"HitByTraps\":[],\"HpLost\":0,\"KilledCreatureIds\":[47,46,45,49,50,48,58,65,68,59,57,70,69,44,56,81],\"LootedGoldCreatureIds\":[47,46,45,49,50,48,58,68,65,59,57,70,56,69,44,81],\"LootedGoldDecorationIds\":[],\"LootedGoldTrapIds\":[],\"LootedHealthOrbCreatureIds\":[56],\"LootedHeroItemCreatureIds\":[{\"ItemId\":56,\"ItemIndex\":0},{\"ItemId\":56,\"ItemIndex\":1}],\"LootedHeroItemDecorationIds\":[],\"LootedHeroItemTrapIds\":[{\"ItemId\":1,\"ItemIndex\":0}],\"LootedLifeForceCreatureIds\":[47,46,45,49,50,58,65,57,59,70,56,44,81],\"LootedLifeForceDecorationIds\":[],\"LootedLifeForceTrapIds\":[],\"ManaUsed\":0,\"MineDestroyedTimeBonusCount\":0,\"PayToKeepLoot\":false,\"PillagedMines\":[],\"SpellUsed\":[],\"TotalMinesCount\":[],\"TreasureRoomLootedGold\":0,\"TreasureRoomLootedLifeForce\":0,\"TreasureRoomOpenFrameCount\":3979,\"TriggeredMinesCount\":[]}}"
+  }
+ },
+ "sendcommands": {
+  "BuyCommand": {
+   "method": "POST",
+   "suffix": "ServerCommandService.hqs/SendCommands",
+   "query": "",
+   "body": "{\"commands\":[{\"$type\":\"HyperQuest.GameServer.Contracts.TrackingCommand, HyperQuest.GameServer.Contracts\",\"TrackingTag\":{\"$type\":\"HyperQuest.GameServer.Contracts.GameInitializeTracking, HyperQuest.GameServer.Contracts\",\"CreationDate\":\"2026-06-21T08:57:10Z\",\"TrackingTagId\":109}},{\"$type\":\"HyperQuest.GameServer.Contracts.BuyCommand, HyperQuest.GameServer.Contracts\",\"ClientCraftingMaterials\":[],\"ConsumedHeroInventory\":[],\"DiscountApplied\":false,\"SkuCode\":\"15473\"}]}"
+  },
+  "HeroEquipmentEquipCommand": {
+   "method": "POST",
+   "suffix": "ServerCommandService.hqs/SendCommands",
+   "query": "",
+   "body": "{\"commands\":[{\"$type\":\"HyperQuest.GameServer.Contracts.StartAssignmentCommand, HyperQuest.GameServer.Contracts\",\"AssignmentId\":5004},{\"$type\":\"HyperQuest.GameServer.Contracts.HeroEquipmentEquipCommand, HyperQuest.GameServer.Contracts\",\"DestinationSlot\":3,\"HeroId\":3,\"SourceSlotId\":0},{\"$type\":\"HyperQuest.GameServer.Contracts.CompleteAssignmentCommand, HyperQuest.GameServer.Contracts\",\"AssignmentId\":5004}]}"
+  },
+  "InboxCollectToHeroInventoryCommand": {
+   "method": "POST",
+   "suffix": "ServerCommandService.hqs/SendCommands",
+   "query": "",
+   "body": "{\"commands\":[{\"$type\":\"HyperQuest.GameServer.Contracts.ClientIdleCommand, HyperQuest.GameServer.Contracts\",\"IdleTime\":0},{\"$type\":\"HyperQuest.GameServer.Contracts.InboxCollectToHeroInventoryCommand, HyperQuest.GameServer.Contracts\",\"SlotIndexes\":{\"0\":1},\"ObjectId\":\"580d50cd5c98320a9cb0e719\"},{\"$type\":\"HyperQuest.GameServer.Contracts.InboxCollectToHeroInventoryCommand, HyperQuest.GameServer.Contracts\",\"SlotIndexes\":{\"1\":1},\"ObjectId\":\"580d50cd5c98320a9cb0e71a\"},{\"$type\":\"HyperQuest.GameServer.Contracts.InboxCollectToHeroInventoryCommand, HyperQuest.GameServer.Contracts\",\"SlotIndexes\":{\"2\":1},\"ObjectId\":\"580d50cd5c98320a9cb0e71b\"}]}"
+  },
+  "CompleteAssignmentCommand": {
+   "method": "POST",
+   "suffix": "ServerCommandService.hqs/SendCommands",
+   "query": "",
+   "body": "{\"commands\":[{\"$type\":\"HyperQuest.GameServer.Contracts.StartAssignmentCommand, HyperQuest.GameServer.Contracts\",\"AssignmentId\":10},{\"$type\":\"HyperQuest.GameServer.Contracts.CompleteAssignmentCommand, HyperQuest.GameServer.Contracts\",\"AssignmentId\":10}]}"
+  },
+  "BuyHeroItemCommand": {
+   "method": "POST",
+   "suffix": "ServerCommandService.hqs/SendCommands",
+   "query": "",
+   "body": "{\"commands\":[{\"$type\":\"HyperQuest.GameServer.Contracts.StartAssignmentCommand, HyperQuest.GameServer.Contracts\",\"AssignmentId\":100},{\"$type\":\"HyperQuest.GameServer.Contracts.BuyHeroItemCommand, HyperQuest.GameServer.Contracts\",\"SlotIndex\":0,\"ClientCraftingMaterials\":[],\"ClientPrice\":{\"Amount\":200,\"CurrencyType\":2},\"ConsumedHeroInventory\":[],\"DiscountApplied\":false,\"SkuCode\":\"11353\"},{\"$type\":\"HyperQuest.GameServer.Contracts.HeroEquipmentEquipCommand, HyperQuest.GameServer.Contracts\",\"DestinationSlot\":8,\"HeroId\":3,\"SourceSlotId\":0},{\"$type\":\"HyperQuest.GameServer.Contracts.CompleteAssignmentCommand, HyperQuest.GameServer.Contracts\",\"AssignmentId\":100}]}"
+  }
+ }
+}

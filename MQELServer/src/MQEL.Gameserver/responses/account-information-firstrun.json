@@ -21,7 +21,7 @@
         "GlanceViewDurationTriggerInSeconds": 5,
         "EnabledNavigationTrackings": ["game://forge/open"]
       },
-      "XmppInfo": {"Username":"3123971","Password":"","Domain":"mqel-live","Server":"chat.themightyquest.com","Port":80,"Enabled":false,"ConferenceServer":"conference.mqel-live"},
+      "XmppInfo": {"Username":"3123971","Password":"AkiTXjIk+EqXzFWmFJGbug==","Domain":"mqel-live","Server":"chat.themightyquest.com","Port":80,"Enabled":true,"ConferenceServer":"conference.mqel-live"},
       "PrimaryShopUrl": "https://www.themightyquest.com/%s/shop?game_token=%s&steamID=%s&steamTicket=%s&embedded=1",
       "PrimaryShopProductPageUrl": "https://www.themightyquest.com/%s/shop/%s?game_token=%s&steamID=%s&steamTicket=%s&embedded=1",
       "PrimaryShopPremiumPurchaseUrl": "https://www.themightyquest.com/%s/shop/category/blings?minimum_blings_quantity=%i&game_token=%s&steam_id=%s&steam_ticket=%s&embedded=1",

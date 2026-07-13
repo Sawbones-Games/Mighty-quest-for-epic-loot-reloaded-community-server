@@ -1,6 +1,7 @@
 # Ops — server operations
 
-> How account state is stored and how we drive/inspect the dev server.
+> How account state is stored and how we drive/inspect the dev server. Part of the [docs set](../README.md) ·
+> conventions: [../CONVENTIONS.md](../CONVENTIONS.md).
 
 - [persistence.md](persistence.md) — the durable account store: the `IAccountRepository` black box
   (EF Core/SQLite, Postgres-ready), the identity seam, and the `AccountState` round-trip.

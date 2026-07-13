@@ -53,7 +53,7 @@ static class AccountMapper
             s.Hero = h;
         }
          foreach (var it in e.Inventory)   // the inbox (looted/rewarded, pre-collect)
-            s.Inbox[it.ObjectId] = it.ItemType == 4      // consumables round-trip as {StackCount,TemplateId}, not gear
+            s.Inbox[it.ObjectId] = it.ItemType == 4      // §1.6 — consumables round-trip as {StackCount,TemplateId}, NOT gear
                 ? new JsonObject { ["StackCount"] = it.StackCount, ["TemplateId"] = it.TemplateId }
                 : GearJson(it.TemplateId, it.ArchetypeId, it.ItemLevel, it.DyeTemplateId, it.Stat0, it.Stat1, it.Stat2);
         foreach (var cm in e.CraftingMaterials.Where(cm => cm.Quantity > 0))
@@ -102,7 +102,7 @@ static class AccountMapper
             var it = e.Inventory.FirstOrDefault(x => x.ObjectId == oid);
             if (it is null) { it = new InventoryItem { ObjectId = oid, AccountId = e.AccountId }; e.Inventory.Add(it); }
             it.TemplateId = Int(j["TemplateId"]);
-            // a consumable/material reward is inboxed as {StackCount,TemplateId} (no gear stats). Persist it as
+            // §1.6 — a consumable/material reward is inboxed as {StackCount,TemplateId} (no gear stats). Persist it as
             // ItemType 4 with its StackCount, NOT as ItemType-3 gear (which drops StackCount and fabricates stats on reload).
             if (j["StackCount"] is not null)
             {

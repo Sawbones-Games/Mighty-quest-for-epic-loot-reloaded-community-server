@@ -18,7 +18,7 @@ public static class PersistenceServiceCollectionExtensions
             switch (options.Provider.ToLowerInvariant())
             {
                 case "sqlite":
-                    // DefaultTimeout is Microsoft.Data.Sqlite's lock-retry budget: a writer that hits a
+                    // §3.3 — DefaultTimeout is Microsoft.Data.Sqlite's lock-retry budget: a writer that hits a
                     // locked DB WAITS up to this long instead of failing instantly with "database is locked"
                     // (the dashboard polls every 3s while game requests write). WAL is enabled once at startup.
                     o.UseSqlite(new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder(options.ConnectionString)

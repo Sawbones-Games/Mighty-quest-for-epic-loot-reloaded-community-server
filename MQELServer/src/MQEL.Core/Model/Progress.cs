@@ -21,8 +21,9 @@ public class InventoryItem
 }
 
 /// <summary>
-/// A completed tutorial assignment. Serving the right set in the GAI makes the client's assignment VM
-/// resume at that tutorial step. Populated from the SendCommands StartAssignment/CompleteAssignment stream.
+/// A completed tutorial assignment. THE key to "jump into any tutorial step": serving the right set in the
+/// GAI makes the client's assignment VM resume there. Populated from the SendCommands
+/// StartAssignment/CompleteAssignment stream.
 /// </summary>
 public class CompletedAssignment
 {

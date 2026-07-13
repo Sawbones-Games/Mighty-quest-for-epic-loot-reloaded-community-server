@@ -13,9 +13,9 @@ rounds to nothing. This doc covers how our server models balances + capacities a
 
 | Type / file | Role |
 |-------------|------|
-| `AccountState.InGameCoin` / `.LifeForce` | balances |
-| `AccountState.InGameCoinStorageCapacity` / `.LifeForceStorageCapacity` | caps |
-| `AccountState.CreditGold` / `.CreditLifeForce` | credit, **clamped to capacity**, returns the actual delta |
+| [`AccountState.InGameCoin` / `.LifeForce`](../../MQELServer/src/MQEL.Gameserver/Account.cs) | balances |
+| [`AccountState.InGameCoinStorageCapacity` / `.LifeForceStorageCapacity`](../../MQELServer/src/MQEL.Gameserver/Account.cs) | caps |
+| [`AccountState.CreditGold` / `.CreditLifeForce`](../../MQELServer/src/MQEL.Gameserver/Account.cs) | credit, **clamped to capacity**, returns the actual delta |
 | [`responses/castle-bought-notifications.json`](../../MQELServer/src/MQEL.Gameserver/responses/castle-bought-notifications.json) | the two type-47 capacity notifications |
 
 ## How it works
@@ -31,7 +31,7 @@ rounds to nothing. This doc covers how our server models balances + capacities a
   [combat-rewards.md](combat-rewards.md) for the EndAttack path.
 
 All notification delivery + the "deltas not totals" rule are in [notifications.md](notifications.md); the JSON
-shapes are in attack-service.md §3.2.
+shapes are in [attack-service.md §3.2](../../code-analysis/rest-api/attack-service.md).
 
 ## Design notes & gaps
 

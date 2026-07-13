@@ -41,7 +41,7 @@ Templates share the live tables; they live in **negative-AccountId space** with 
 ## Design notes & gaps
 - 🟡 Today the tool snapshots only the **single dev account** (`DefaultAccountId`). 💡 Once multi-user routing
   lands, generalize to "snapshot every account into one timestamped set" for pre-patch wholesale rollback
-  (the capture/restore plumbing is already account-agnostic).
+  (the capture/restore plumbing is already account-agnostic). See [STATUS.md](../STATUS.md) → Ideas.
 
 ## Related
 - [admin-dashboard.md](admin-dashboard.md) — the UI that drives these (+ the reset button)

@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
    The Mighty Quest for Epic Loot: Reloaded — Admin UI · CORE
    Palette · font · page chrome.  "Sky Keep" skin.
-   Note: the original display font was a proprietary game asset and is
-   NOT shipped here — headings fall back to the browser serif stack.
+   Palette + horseshoes font ripped from the game's own UI assets.
 ═══════════════════════════════════════════════════════════════ */
+@font-face { font-family:'Horseshoes'; src:url('../game-assets/horseshoes.woff') format('woff'), url('../game-assets/horseshoes.ttf') format('truetype'); }
 
 :root {
   --radius:6px;

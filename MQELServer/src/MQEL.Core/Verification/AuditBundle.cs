@@ -5,13 +5,14 @@ namespace MQEL.Core.Verification;
 /// <summary>
 /// Everything needed to (eventually) re-simulate and verify a completed attack.
 ///
-/// Combat runs client-side and deterministically from <see cref="AttackRandomSeed"/>, so the server's only
-/// obligation is to <b>persist</b> this bundle — the verification compute is stubbed
-/// (see <see cref="IVerificationService"/>). Persisting the bundle regardless keeps retroactive verification
-/// possible even while the compute is deferred.
+/// Combat runs client-side and deterministically from <see cref="AttackRandomSeed"/>, so for now the
+/// server's only obligation is to <b>persist</b> this bundle — the verification compute is stubbed
+/// (see <see cref="IVerificationService"/>). Deferring the compute is fine; dropping the bundle would be
+/// the one real shortcut (you could never verify retroactively), so the audit substrate is built from day 1.
 ///
-/// The opaque <see cref="JsonElement"/> members hold shapes not yet captured from the real client. They are
-/// stored verbatim rather than guessed, to be promoted to strongly-typed models once the real traffic is captured.
+/// The opaque <see cref="JsonElement"/> members hold shapes we have not yet captured from the real client.
+/// They are stored verbatim rather than guessed; once First Contact captures the real traffic they get
+/// promoted to strongly-typed models.
 /// </summary>
 public sealed record AuditBundle
 {

@@ -74,7 +74,7 @@ Beyond pure coaching, campaign steps unlock **objectives** (quests with a tracke
 reward). Conditions like `DefenseIngredientDestroyed {SpecContainerId, Count}` are counted **client-side**
 during the raid. The **server owns the objective's persistence (GAI `Objectives`) and the completion reward**.
 This is a newer surface — its wire contract is being traced in
-objectives.md.
+[objectives.md](../../code-analysis/rest-api/objectives.md).
 
 ### 5. The known FTUE chain (for orientation)
 ```
@@ -105,7 +105,8 @@ objectives.md.
    handle the new commands, grant the reward.
 5. **Verify on the live client (the oracle).** Boot the patched client, restore a save-state to the step,
    capture the **real** `SendCommands`/`EndAttack` bodies + read CDP view-models, and implement exactly what
-   the client reveals it expects — restart, repeat. Re-dump and re-decompile at the
+   the client reveals it expects — restart, repeat ([emulate-boot-step](../../.claude/skills/emulate-boot-step/SKILL.md),
+   [inspect-live-client](../../.claude/skills/inspect-live-client/SKILL.md)). Re-run unpack-and-decompile at the
    milestone ([[feedback-redump-every-milestone]]).
 6. **Record completion.** Ensure the step's `CompleteAssignmentCommand` is acked + recorded so reconnect skips
    it; snapshot a new save-state for the next step.
@@ -131,6 +132,7 @@ objectives.md.
 ## Related
 - [castles.md](castles.md) — serving the castle a step attacks
 - [progression-loop.md](../gameplay/progression-loop.md) — the reward/notification loop steps ride on
-- objectives.md — the quest/objective wire (new surface)
-- attack-service.md §4 — the Assignment-VM mechanism in detail
+- [objectives.md](../../code-analysis/rest-api/objectives.md) — the quest/objective wire (new surface)
+- [attack-service.md §4](../../code-analysis/rest-api/attack-service.md) — the Assignment-VM mechanism in detail
+- [`.opencode/plans/tybalts-farm-castle.md`](../../.opencode/plans/tybalts-farm-castle.md) — worked example
 </content>

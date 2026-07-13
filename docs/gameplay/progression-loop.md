@@ -30,7 +30,7 @@ Supporting features: [castles.md](../content/castles.md) (serving the dungeon), 
 
 ## What worked — the methodology
 
-The method that cracked every step:
+The method that cracked every step (now the [`inspect-live-client`](../../.claude/skills/inspect-live-client/SKILL.md) skill):
 1. **Read the live client before theorising.** CDP (`tools/cdp.py`) reads the real view-models; the wire
    capture (`d:\mqel-trace.log`, `captures/`) + the game's own `MQLog.txt` (`Unhandled member` warnings) are
    the oracle. Every wrong value came from reasoning on canned/reference data instead.
@@ -48,13 +48,13 @@ The method that cracked every step:
 | Parsing the whole EndAttack body | throws on the trailing binary replay → silent zero reward. Brace-match the leading JSON. [combat-rewards.md](combat-rewards.md) |
 | Forcing a `SendCommands` failure to trigger a GAI re-fetch | **crashes** the client (unrecoverable network error). Never. |
 | `ObjectiveCompletedNotification` with `NotificationType:112` | a guess — the client silently ignores unknown types → tutorial stalled a day. Real type is **14**. [objectives.md](objectives.md) |
-| Inferring "no objective contract exists" from the dumped contract catalog | the catalog is **incomplete for notifications**; trust the `MQELOffline_cpp` captures / live wire. [notifications.md](notifications.md) |
+| Inferring "no objective contract exists" from `gameserver-catalog.txt` | the dumped catalog is **incomplete for notifications**; trust the `MQELOffline_cpp` captures / live wire. [notifications.md](notifications.md) |
 | Trusting `MQELOffline_cpp` for *behavior* | it hardcodes EndAttack + skips the tutorial — authoritative for **contract shapes**, misleading for behavior/values. |
 | The canned `Ness199X` account body / "account is frozen, nothing syncs" model | fabrication / wrong model — state syncs via notifications; the account is GENERATED from real state. |
 
 ## Related
 - Feature docs: [wallet.md](wallet.md) · [combat-rewards.md](combat-rewards.md) · [hero-progression.md](hero-progression.md) · [objectives.md](objectives.md) · [notifications.md](notifications.md)
-- attack-service.md — authoritative attack/notification shapes
-- in-session-state-sync.md — the native getSpells gate
+- [attack-service.md](../../code-analysis/rest-api/attack-service.md) — authoritative attack/notification shapes
+- [in-session-state-sync.md](../../code-analysis/decompiled/account/in-session-state-sync.md) — the native getSpells gate
 - memory: [[project-wallet-capacity-type47]], [[project-endattack-scoring]], [[project-skilltree-grey-clientside]], [[project-tybalts-farm-next-step]]
 </content>

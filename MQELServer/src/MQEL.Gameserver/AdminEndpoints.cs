@@ -4,8 +4,9 @@ using MQEL.Core.Model;
 using MQEL.Data.Persistence;
 
 // The admin/dashboard API (/health + /api/*). The game client never calls these — they back the wwwroot
-// dashboard only — so they live entirely off the per-account game path. The shared state the handlers
-// need is passed in via AdminDeps rather than captured, so the module has no hidden coupling to Program.cs.
+// dashboard only — so they live entirely off the per-account game path. Extracted from the Program.cs god-file
+// (fableReview §3.1). The shared state the handlers need is passed in via AdminDeps rather than captured, so the
+// module has no hidden coupling to Program.cs.
 sealed record AdminDeps(
     string AdminToken,
     Func<long, SemaphoreSlim> GateFor,
@@ -24,7 +25,7 @@ static class AdminEndpoints
 
         // Auth = X-Admin-Token vs config "Admin:Token" (empty ⇒ open, local).
         bool Authed(HttpContext c) => string.IsNullOrEmpty(d.AdminToken) || (string?)c.Request.Headers["X-Admin-Token"] == d.AdminToken;
-        // Admin writes hold the same per-account gate as the game middleware, so a dashboard edit and an
+        // §1.3 — admin writes hold the SAME per-account gate as the game middleware, so a dashboard edit and an
         // in-flight game request can't clobber each other's whole-graph save. Auth stays outside; only the DB write is serialized.
         async Task<IResult> Gated(long id, Func<Task<IResult>> body)
         {
@@ -39,7 +40,7 @@ static class AdminEndpoints
             if (w is null) { w = new Wallet { AccountId = a.AccountId, CurrencyType = type, Capacity = 2000 }; a.Wallets.Add(w); }
             w.Amount = amount;
         }
-        // Snapshots load through the same shared include list as the game path (AccountGraph), so the two can't drift.
+        // §3.5 — snapshots load through the SAME shared include list as the game path (AccountGraph), so the two can't drift.
         static IQueryable<Account> SnapGraph(IQueryable<Account> q) => AccountGraph.Includes(q);
 
         app.MapGet("/health", () => Results.Ok(new { ok = true }));
@@ -49,7 +50,7 @@ static class AdminEndpoints
             if (!Authed(ctx)) return Results.Unauthorized();
             return Results.Json(new
             {
-                // Report the actual port the request arrived on and the configured DB, not hardcoded constants.
+                // §2.7 — report the ACTUAL port the request arrived on and the configured DB, not hardcoded constants.
                 running = true, port = ctx.Connection.LocalPort, db = d.StorageOptions.ConnectionString,
                 accounts = await db.Accounts.CountAsync(a => !a.IsTemplate),
                 snapshots = await db.Accounts.CountAsync(a => a.IsTemplate),
@@ -102,7 +103,7 @@ static class AdminEndpoints
                     .FirstOrDefaultAsync(x => x.AccountId == id);
                 if (a is null) return Results.NotFound();
                 if (edit.DisplayName is { } dn) a.DisplayName = dn;
-                // Apply wallet/hero fields only when present; an omitted field must not zero the wallet or de-level
+                // §1.5 — apply wallet/hero fields ONLY when present; an omitted field must not zero the wallet or de-level
                 // the hero. Clamp to [0, int.MaxValue]: the game reads Wallet.Amount as (int) on load.
                 if (edit.Gold is { } gold) UpsertWalletApi(a, 2, Math.Clamp(gold, 0, int.MaxValue));
                 if (edit.LifeForce is { } lf) UpsertWalletApi(a, 4, Math.Clamp(lf, 0, int.MaxValue));

@@ -88,7 +88,7 @@ async function loadSnaps(){
     : '<tr><td colspan="4" class="mq-muted" style="padding:11px">No save-states yet — capture the live account below.</td></tr>';
   // Bind via addEventListener + dataset (NOT inline onclick with the name interpolated into a JS string): inside an
   // attribute the browser decodes HTML entities before the JS parses, so a crafted snapshot name could execute. The
-  // dataset value is pure data — read, never eval'd.
+  // dataset value is pure data — read, never eval'd. (fableReview §2.7)
   $('#snaps tbody').querySelectorAll('.snap-restore').forEach(a=>a.addEventListener('click',()=>restoreSnap(a.dataset.name)));
   $('#snaps tbody').querySelectorAll('.snap-delete').forEach(a=>a.addEventListener('click',()=>deleteSnap(a.dataset.name)));
 }

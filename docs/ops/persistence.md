@@ -50,9 +50,10 @@ A request that touches account state runs:
 > when `Objectives`/`CraftingMaterials` were added to `SnapGraph` late.)
 
 ## REST / wire
-No game-facing wire of its own — it backs the account contracts (chiefly `GetAccountInformation`). It only
-decides *where state lives and how it round-trips*. The admin/snapshot `/api/*` endpoints are server-internal —
-see [admin-dashboard.md](admin-dashboard.md).
+No game-facing wire of its own — it backs the account contracts (chiefly `GetAccountInformation`), whose JSON
+is owned by [`../code-analysis/`](../../code-analysis/README.md) (e.g.
+[account-load](../../code-analysis/decompiled/account/account-load.md)). It only decides *where state lives and how
+it round-trips*. The admin/snapshot `/api/*` endpoints are server-internal — see [admin-dashboard.md](admin-dashboard.md).
 
 ## Data / persistence
 - **Store:** SQLite file `mqel.db` (gameserver working dir = the project dir at `dotnet run`), EF Core 8,
@@ -89,4 +90,5 @@ and the EF provider registration; regenerate migrations. No caller changes — t
 - [admin-dashboard.md](admin-dashboard.md) — the UI + `/api/*` (incl. account reset) on top of this store
 - [save-states.md](save-states.md) — named snapshots (the same mapper round-trip)
 - [boot-flow.md](../boot/boot-flow.md) — where account load/create sits in the launch sequence
+- [code-analysis account-load](../../code-analysis/decompiled/account/account-load.md) — the `GetAccountInformation` wire shape this state feeds
 </content>

@@ -8,7 +8,8 @@
 Raid combat in MQEL is **simulated on the client, deterministically from a server-issued
 `AttackRandomSeed`** — so the server does not re-run combat. It is *not* blind trust either: the server
 owns the economy, and determinism + the seed + a stored replay make any attack re-verifiable. Why this is
-the standard (and safe) async-raid design.
+the standard (and safe) async-raid design, with evidence:
+[FINDINGS §7](../../FINDINGS.md#7-combat--sync-model--the-client-simulates-the-server-doesnt).
 
 This subsystem is the **clean seam** for that verification, present from day 1 so anti-cheat can be added
 later with **no protocol or schema change** — only the compute is deferred, never the audit data.
@@ -44,4 +45,4 @@ re-simulation (airtight).
   from captured POSTs and/or the decompiled game code, not by guessing.
 
 ## Related
-- [boot-flow.md](../boot/boot-flow.md) — the server overview
+- [boot-flow.md](../boot/boot-flow.md) — the server overview · [FINDINGS §7](../../FINDINGS.md#7-combat--sync-model--the-client-simulates-the-server-doesnt)

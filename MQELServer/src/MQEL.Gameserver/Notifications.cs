@@ -1,8 +1,10 @@
 using System.Text.Json.Nodes;
 
 // Single source for the notification wire contracts appended to .hqs responses. The $type strings and the
-// NotificationType integers live here exactly once — a typo in either is a silent client drop (the engine
-// ignores unknown/mistyped notifications with no error and no log).
+// NotificationType integers live here EXACTLY ONCE — a typo in either is a SILENT client drop (the engine
+// ignores unknown/mistyped notifications with no error and no log), so having them duplicated across EndAttack
+// and MissionManager is precisely how a regression hides (fableReview §3.4; see find-notification-shape skill).
+// Shapes verified in code-analysis/decompiled/account/in-session-state-sync.md + code-analysis/rest-api/objectives.md.
 static class Notifications
 {
     const string NS = ", HyperQuest.GameServer.Contracts";
@@ -42,10 +44,11 @@ static class Notifications
         ["$type"] = T("ObjectiveCompletedNotification"), ["ObjectiveId"] = objectiveId, ["NotificationType"] = 14
     };
 
-    // type-17 ObjectiveUnlocked — chains the next objective's unlock into the same response. Unlike type-14
+    // type-17 ObjectiveUnlocked — chains the NEXT objective's unlock into the SAME response. Unlike type-14
     // (flat, the client already tracks that objective locally) this needs the full AccountObjective payload
     // (Status/LastStatusDate) since the client has never seen this objective before and must create its local
-    // tracking entry from scratch.
+    // tracking entry from scratch. Exact shape from the reference capture (objectives.md §3.2):
+    // {"$type":"…ObjectiveUnlockedNotification…","AccountObjective":{"ObjectiveId":303,"Status":1,"LastStatusDate":"2016-10-17T02:58:42Z"},"NotificationType":17}
     public static JsonObject ObjectiveUnlocked(int objectiveId, DateTime lastStatusUtc) => new()
     {
         ["$type"] = T("ObjectiveUnlockedNotification"),

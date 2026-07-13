@@ -1,24 +1,28 @@
 using System.Text.Json.Nodes;
 
-// Resolves an (AssignmentId, ActionIndex) pair back to the actual AssignmentActionSpec. Needed because the
-// client's ExecuteAssignmentActionCommand carries ONLY {AssignmentId, ActionIndex} — never the action's
-// payload — so the server must already know what that action IS to react to it (e.g.
-// SetCastleRenovationLevelAssignmentActionSpec{CastleRenovationLevel}). Each assignment is one file under
-// data/assignments/<id>.json (the assignment's original gameplay array); ids are read from the file names
-// once at load. Files are parsed lazily + cached on first lookup — most assignments are never queried.
+// Resolves an (AssignmentId, ActionIndex) pair back to the actual AssignmentActionSpec from the decrypted spec
+// DB. Needed because the client's ExecuteAssignmentActionCommand carries ONLY {AssignmentId, ActionIndex}
+// (command-queue.md §5.7) — never the action's payload — so the server must already know what that action IS to
+// react to it (e.g. SetCastleRenovationLevelAssignmentActionSpec{CastleRenovationLevel}). Folder names encode the
+// id ("005007 - Castle_Crafting_1st_Floor_Complete"); parsed once at load. Files are parsed lazily + cached on
+// first lookup — 100+ assignments exist, most are never queried.
 sealed class AssignmentCatalog
 {
     readonly Dictionary<int, string> _pathById = new();
     readonly Dictionary<int, JsonArray> _actionsById = new();
 
-    public static AssignmentCatalog Load(string dataRoot)
+    public static AssignmentCatalog Load(string specRoot)
     {
         var c = new AssignmentCatalog();
-        var dir = Path.Combine(dataRoot, "assignments");
-        if (!Directory.Exists(dir)) return c;
-        foreach (var file in Directory.EnumerateFiles(dir, "*.json"))
-            if (int.TryParse(Path.GetFileNameWithoutExtension(file), out var id))
-                c._pathById[id] = file;
+        var dir = Path.Combine(specRoot, "GameplaySettings", "Assignments");
+        foreach (var folder in Directory.EnumerateDirectories(dir))
+        {
+            var name = Path.GetFileName(folder);
+            int sep = name.IndexOf(" - ", StringComparison.Ordinal);
+            var idPart = sep >= 0 ? name[..sep] : name;
+            if (int.TryParse(idPart, out var id))
+                c._pathById[id] = folder;
+        }
         return c;
     }
 
@@ -28,7 +32,8 @@ sealed class AssignmentCatalog
     {
         if (!_actionsById.TryGetValue(assignmentId, out var actions))
         {
-            if (!_pathById.TryGetValue(assignmentId, out var file)) return null;
+            if (!_pathById.TryGetValue(assignmentId, out var folder)) return null;
+            var file = Path.Combine(folder, "GAMEPLAY.JSON");
             actions = File.Exists(file) && JsonNode.Parse(File.ReadAllText(file)) is JsonArray doc
                 ? (doc[0]?["Actions"] as JsonArray ?? new JsonArray())
                 : new JsonArray();
@@ -37,5 +42,5 @@ sealed class AssignmentCatalog
         return actionIndex >= 0 && actionIndex < actions.Count ? actions[actionIndex] as JsonObject : null;
     }
 
-    public static string? FindDataRoot() => ItemCatalog.FindDataRoot();
+    public static string? FindSpecRoot() => ItemCatalog.FindSpecRoot();
 }

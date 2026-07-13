@@ -2,13 +2,14 @@ using System.Text.Json.Nodes;
 
 // Data-driven castle-renovation levels + costs, loaded from the decrypted spec DB
 // (GeneralSettings/CASTLERENOVATIONSETTINGS.JSON). Backs the server's side of the castle-build system:
-// build_getBuildModel/build_getCastleLevelUpInfo/buildingNavBar_* are engine-local native calls (not .hqs
-// endpoints), so the only server-bound piece is recording the level advance + deducting its material cost
-// when a SetCastleRenovationLevelAssignmentActionSpec is reported via ExecuteAssignmentActionCommand
-// (see GameEndpoints.cs SendCommands).
+// build_getBuildModel/build_getCastleLevelUpInfo/buildingNavBar_* are engine-LOCAL native calls (never .hqs
+// endpoints — code-analysis/rest-api/objectives.md), so the ONLY server-bound piece is recording the level
+// advance + deducting its material cost when a SetCastleRenovationLevelAssignmentActionSpec is reported via
+// ExecuteAssignmentActionCommand (see GameEndpoints.cs SendCommands).
 sealed class CastleRenovationCatalog
 {
-    // 0-based on the wire (RenovationLevel1 = 0): CastleRenovationLevel=0 renders as "Level 1" client-side.
+    // 0-based on the wire (RenovationLevel1 = 0) — confirmed by playtest: sending CastleRenovationLevel=0 at
+    // boot renders as "Level 1" client-side (code-analysis/rest-api/objectives.md).
     static readonly string[] LevelNames = { "RenovationLevel1", "RenovationLevel2", "RenovationLevel3", "RenovationLevel4", "RenovationComplete" };
 
     readonly Dictionary<string, List<(int TemplateId, int Quantity)>> _costs = new();
@@ -18,11 +19,11 @@ sealed class CastleRenovationCatalog
     public IReadOnlyList<(int TemplateId, int Quantity)> CostFor(string levelName) =>
         _costs.TryGetValue(levelName, out var c) ? c : Array.Empty<(int, int)>();
 
-    public static CastleRenovationCatalog Load(string dataRoot)
+    public static CastleRenovationCatalog Load(string specRoot)
     {
         var c = new CastleRenovationCatalog();
         var doc = JsonNode.Parse(File.ReadAllText(
-            Path.Combine(dataRoot, "castle", "renovation-settings.json")))!;
+            Path.Combine(specRoot, "GameplaySettings", "GeneralSettings", "CASTLERENOVATIONSETTINGS.JSON")))!;
         foreach (var kv in doc["PerLevelRenovationInformation"]!.AsObject())
         {
             var cost = new List<(int, int)>();
@@ -34,5 +35,5 @@ sealed class CastleRenovationCatalog
         return c;
     }
 
-    public static string? FindDataRoot() => ItemCatalog.FindDataRoot();
+    public static string? FindSpecRoot() => ItemCatalog.FindSpecRoot();
 }

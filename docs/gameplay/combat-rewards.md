@@ -15,8 +15,8 @@ This doc covers the two-call mechanism: `StartAttack` hands out the **loot table
 |-------------|------|
 | [`Program.cs` StartAttack](../../MQELServer/src/MQEL.Gameserver/Program.cs) | serves the castle, generates `CreatureLoot` per instance-Id, stamps class loot, **stores the loot tables** in the scratch |
 | [`Program.cs` EndAttack](../../MQELServer/src/MQEL.Gameserver/Program.cs) | parses the looted-IDs, sums the stored tables, credits + persists, emits notifications |
-| `AttackScratch` | the transient per-attack tables (`CreatureLoot`/`TrapLoot`/`CreatureItems`/`CreatureSpecById`), survive the StartAttack→EndAttack pair |
-| `AccountState.ClassFirstLootTemplate` | per-class first-loot TemplateId (Knight 17 / Archer 81 / Mage 53 / Runaway 311) |
+| [`AttackScratch`](../../MQELServer/src/MQEL.Gameserver/Account.cs) | the transient per-attack tables (`CreatureLoot`/`TrapLoot`/`CreatureItems`/`CreatureSpecById`), survive the StartAttack→EndAttack pair |
+| [`AccountState.ClassFirstLootTemplate`](../../MQELServer/src/MQEL.Gameserver/Account.cs) | per-class first-loot TemplateId (Knight 17 / Archer 81 / Mage 53 / Runaway 311) |
 
 ## How it works
 
@@ -38,8 +38,9 @@ This doc covers the two-call mechanism: `StartAttack` hands out the **loot table
 5. **Objective scoring** also happens here (kill-by-spec) — see [objectives.md](objectives.md).
 
 ## REST / wire
-`StartAttack` / `EndAttack` / `Resurrect` request+response JSON is defined by the client's wire protocol.
-This doc is the implementation/scoring.
+`StartAttack` / `EndAttack` / `Resurrect` request+response JSON is owned by
+[`../code-analysis/rest-api/attack-service.md`](../../code-analysis/rest-api/attack-service.md). This doc is the
+implementation/scoring; the shapes live there.
 
 ## Data / persistence
 The loot tables are **transient** (`AttackScratch`, per-account in-memory, re-derivable from the castle) —
@@ -56,5 +57,5 @@ never persisted. The credited gold/XP/items **are** persisted (see [persistence.
 ## Related
 - [castles.md](../content/castles.md) — the castle StartAttack serves · [hero-progression.md](hero-progression.md) — XP/level
 - [wallet.md](wallet.md) — currency credit + caps · [notifications.md](notifications.md) — type-24/43/111
-- attack-service.md — authoritative shapes · memory `project-endattack-scoring`
+- [attack-service.md](../../code-analysis/rest-api/attack-service.md) — authoritative shapes · memory `project-endattack-scoring`
 </content>

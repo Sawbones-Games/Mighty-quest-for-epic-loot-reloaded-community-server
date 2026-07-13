@@ -2,7 +2,8 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 
 // Launcher/patcher boot shims — the pre-game handshake (version checks + the Steam login page). None of these
-// touch account state, so they live outside the game catch-all's per-account machinery.
+// touch account state, so they live outside the game catch-all's per-account machinery. Extracted from the
+// Program.cs god-file (fableReview §3.1); behaviour is byte-for-byte the same (wire-golden: packages-version).
 static class LauncherEndpoints
 {
     /// <summary>Handle a launcher/patcher path; returns null if <paramref name="path"/> isn't one of ours.</summary>
@@ -32,18 +33,21 @@ static class LauncherEndpoints
             }
             catch { /* keep defaults; capture already logged the raw body */ }
 
-            // Response contract (from the PublicLauncher.exe serializers):
-            //   RMLauncherAndServerPackagesVersion { RMLauncherPatch, RMServerPackagesVersion }
-            //   RMServerPackagesVersion            { BranchName, GamePublicationLabel, RMPackagePatches[] }
+            // Response contract, fully decompiled from PublicLauncher.exe serializers (scratchpad/launcher-patchlogic*.txt):
+            //   RMLauncherAndServerPackagesVersion { RMLauncherPatch, RMServerPackagesVersion }               (FUN_00418a17)
+            //   RMServerPackagesVersion            { BranchName, GamePublicationLabel, RMPackagePatches[] }    (FUN_0041ae1e)
             //   RMPackagePatch { FullDownloadSize, FullInstallUrl, PatchDownloadSize, PatchInstallUrl,
-            //                    RMPackagePatchFlags(int enum), RMPackageVersion }
+            //                    RMPackagePatchFlags(int enum), RMPackageVersion }                             (FUN_004198bc)
             //   RMPackagePatchFlags: None=0, CanInstallFullInstall=1, CanInstallPatch=2, ClientVersionUpToDate=4,
-            //                    PackageDeleted=8, UpdateVersionNumberOnly=16
+            //                    PackageDeleted=8, UpdateVersionNumberOnly=16                                  (FUN_00419a76)
             //
-            // The Steam-distributed launcher delegates all game-file updates to Steam and ignores a non-empty
-            // RMPackagePatches (it shows a "update via the Steam client" message box instead), so we report
-            // everything up-to-date (empty RMPackagePatches, echo the client's own publication label) to show
-            // Play cleanly.
+            // IMPORTANT (RE result, 2026-07-08): returning a non-empty RMPackagePatches on the STEAM build does NOT
+            // make the launcher self-download. It shows message-box keys 49/50 — "You are not running the latest
+            // version of the game. Please update via the Steam client." — because the Steam-distributed launcher
+            // delegates ALL game-file updates to Steam; its CDN self-patcher (DownloadPackage/InstallPackage/xdelta)
+            // is compiled in but unused in the Steam distribution path. So the launcher can NOT be used to deliver
+            // our dinput8.dll (task B is infeasible on the Steam build). We therefore report everything up-to-date
+            // (empty RMPackagePatches, echo the client's own publication label) so the launcher shows Play cleanly.
             var body = new JsonObject
             {
                 ["RMLauncherPatch"] = new JsonObject { ["VersionName"] = lver },
@@ -62,17 +66,17 @@ static class LauncherEndpoints
         if (path.Contains("GetRMLauncherVersion", StringComparison.OrdinalIgnoreCase))
         {
             var v = ctx.Request.Query["versionName"].FirstOrDefault() ?? "276072";
-            return Results.Content(new JsonObject { ["VersionName"] = v }.ToJsonString(jsonOpts), "application/json");
+            return Results.Content(new JsonObject { ["VersionName"] = v }.ToJsonString(jsonOpts), "application/json");   // §1.4
         }
 
         // Login page (loaded into the launcher's #remote-launcher-pages iframe). The launcher reads
         // window.userIsLoggedIn + cookie "t" (LoginToken), then calls _onUserLoggedIn({LoginToken, SGToken, UserEmail}).
         // We accept the Steam identity, mint a session token, set the cookies, and report logged-in.
         // TODO(correctness): validate the Steam ticket via the Steam Web API; persist the minted token so the
-        // gameserver can authenticate the game's connection against it.
+        // gameserver can authenticate the game's connection against it (see STATUS.md multi-user preconditions).
         if (path.Contains("/launcher/load", StringComparison.OrdinalIgnoreCase))
         {
-            // steamID lands in a cookie value; strip anything non-alphanumeric so a crafted query string can't
+            // §1.4 — steamID lands in a cookie value; strip anything non-alphanumeric so a crafted query string can't
             // inject cookie attributes / break the header (Steam IDs are numeric, so this is loss-free for real input).
             var steamIdRaw = ctx.Request.Query["steamID"].FirstOrDefault() ?? "unknown";
             var steamId = new string(steamIdRaw.Where(char.IsLetterOrDigit).ToArray());

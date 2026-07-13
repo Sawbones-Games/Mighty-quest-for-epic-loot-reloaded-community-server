@@ -7,10 +7,11 @@ using MQEL.Core.Model;
 using MQEL.Core.Verification;
 
 // The account-bearing game RPC services (the .hqs handlers): __state, GetAccountInformation, SendCommands,
-// KeepAlive/Track, ChooseDisplayName/ChooseFirstHero, StartAttack, EndAttack. The per-account middleware loads
-// the working AccountState into ctx.Items and saves it after this returns; shared services these handlers need
-// are passed via GameDeps rather than captured. TryHandle returns null when no handler matched, so the caller
-// falls through to the static file-backed dispatcher.
+// KeepAlive/Track, ChooseDisplayName/ChooseFirstHero, StartAttack, EndAttack. Extracted from the Program.cs
+// god-file (fableReview §3.1). The per-account middleware has already loaded the working AccountState into
+// ctx.Items and will save it after this returns; the shared services these handlers need are passed via GameDeps
+// rather than captured. TryHandle returns null when no handler matched, so the caller can fall through to the
+// static file-backed dispatcher. Behaviour is byte-for-byte the same (wire-golden suite pins it).
 sealed record GameDeps(
     JsonSerializerOptions JsonOpts,
     Func<string, string> RespFile,
@@ -26,12 +27,12 @@ sealed record GameDeps(
 static class GameEndpoints
 {
     // Campaign story castles (Ubisoft-owned, `responses/castles/<id>.json`). Anything else served by StartAttack
-    // is the objective-301 PvP-tutorial bot pool (4/5/6/7), scored as CastleType "User" so the
-    // CastleTypes:["User"]-scoped missions can complete.
-    static readonly HashSet<int> CampaignCastleIds = new() { 2, 3, 100, 101, 102, 103, 104 };
+    // today is the objective-301 PvP-tutorial bot pool (4/5/6/7, see tools/make_tutorial_castle.py) — scored as
+    // CastleType "User" so the CastleTypes:["User"]-scoped missions can complete. Extend as new story castles land.
+    static readonly HashSet<int> CampaignCastleIds = new() { 2, 3, 100, 101, 102, 103, 104, 14 };
 
-    // Temporary toggle — fast-forward the attack-tutorial to base-building (MissionManager.FastForward…).
-    // Set false / remove once a real defended castle is built and the chain is implemented.
+    // ⚠️ TEMPORARY CHEAT toggle — fast-forward the attack-tutorial to base-building (MissionManager.FastForward…).
+    // Set false / delete once a real defended castle is built and the chain is implemented correctly.
     const bool FastForwardCheat = true;
 
     public static async Task<IResult?> TryHandle(HttpContext ctx, string path, AccountState gameState, GameDeps deps)
@@ -41,35 +42,49 @@ static class GameEndpoints
         return Results.Json(new { gameState.HeroClass, gameState.HeroLevel, gameState.InGameCoin, gameState.LifeForce, gameState.InGameCoinStorageCapacity, gameState.LifeForceStorageCapacity, gameState.CastleClaimed, gameState.LastAttackCastle });
 
     // ACCOUNT LOAD — AccountInformationService.hqs/GetAccountInformation.
-    // On boot the engine blocks until AccountServerController → ShopController → LobbyController are all ready.
-    // AccountServerController dispatches a GetAccountInformationTask whose success callback sets the ready flag
-    // only if the response deserializes as an AccountInformation, so a parseable response advances boot past the
-    // Account gate — the field content matters for the lobby UI, not the ready flag itself.
+    // On boot the engine blocks until AccountServerController → ShopController → LobbyController are all
+    // ready (account-load.md §4.1, FUN_008f2560). AccountServerController::Start (FUN_008e2d80) dispatches
+    // a GetAccountInformationTask; its success callback OnAccountInformationTaskSuccess (FUN_008e2c60) sets
+    // the ready flag (this+0xc4=1) ONLY if the response deserializes as an AccountInformation. So a
+    // parseable response advances boot past the Account gate — the field *content* matters for the lobby
+    // UI, not the ready flag.
     //
-    // $type MUST be the concrete subclass "...AccountInformation..." (not ...Base) — the polymorphic Argo
-    // deserializer selects the reader by $type. We send the scalar fields + empty typed-lists (empty array →
-    // empty list). The complex typed objects (Wallet/BuildInfo/Stats/Inventory/BuyBack/HeroFreeTrialInfoPeriod)
-    // are omitted, so the client leaves them at their ctor defaults rather than risk a malformed nested $type
-    // crashing a sub-deserializer.
+    // Contract: response-contracts.md §1.1 (AccountInformationBase deserializer FUN_007606d0) + §1.2/§9.
+    // $type MUST be the concrete subclass "...AccountInformation..." (NOT ...Base) — the polymorphic Argo
+    // deserializer selects the reader by $type. We send the scalar fields + empty typed-lists (empty array
+    // → empty list, safe). The complex typed objects (Wallet/BuildInfo/Stats/Inventory/BuyBack/
+    // HeroFreeTrialInfoPeriod) are OMITTED for now → the client leaves them at their ctor defaults rather
+    // than risk a malformed nested $type crashing a sub-deserializer. The AccountInformation-only fields
+    // (offsets 0xf8–0x13f, deser FUN_005219a0) are not yet traced (⛔). Fill both in once a live capture
+    // (post-TLS) shows what the lobby actually dereferences.
     if (path.Contains("GetAccountInformation", StringComparison.OrdinalIgnoreCase))
     {
-        // gameState is process-global: a game relaunch without a server restart keeps prior state, so restart
-        // the server for a fresh game session until per-account/session state exists.
+        // (Removed the "self-heal" that reset gameState on the first GAI — a band-aid for stale in-process state
+        //  across game relaunches. The real fix is per-account/session state; until then, restart the server for a
+        //  fresh game session — gameState is process-global, so a relaunch without a restart keeps prior state.)
         deps.WireLog($"GAI HeroClass={gameState.HeroClass} HeroLevel={gameState.HeroLevel} -> {(gameState.HeroClass != 0 ? "herocreated.L" + gameState.HeroLevel : "firstrun")}");
-        // Generate the AccountInformation from the stateful account model, wrapped in the {"Result":...} envelope
-        // the .hqs services use. Base = the clean first-run (no-hero) body (boilerplate + minimal empty castle +
-        // IGC wallet); populated sub-objects prevent AccountServerController crashing on null Wallet/BuildInfo/
-        // Inventory/Stats. Once a hero exists, BuildAccountInformation adds the hero-created fields (DisplayName/
-        // SelectedHeroId/Heroes) from real state; otherwise the first-run body proceeds to hero selection.
+        // Confirmed-working FIRST-RUN (no-hero) AccountInformation, wrapped in the {"Result":...} envelope the
+        // .hqs services use — cross-checked against the Hedgehogscience/MQELOffline_cpp reference impl. Our
+        // earlier minimal $type-only body deserialized ("Account information loaded") but then crashed the
+        // AccountServerController on null typed sub-objects (Wallet/BuildInfo/Inventory/Stats); the populated
+        // values here prevent that. No-hero → game proceeds to character/hero selection.
+        // Once a hero has been chosen (ChooseFirstHero, in-memory state), flip to the hero-created variant with
+        // the live DisplayName/SelectedHeroId/Heroes injected; otherwise serve the first-run (no-hero) body.
+        // GENERATE the AccountInformation from the stateful account model — NEVER a canned snapshot.
+        // Base = the clean first-run body (static boilerplate + minimal EMPTY castle + IGC wallet — from the
+        // reference's FIRST-RUN, not the Ness199X mid-game account). BuildAccountInformation adds the
+        // hero-created fields from real state only once a hero exists. The fabricated herocreated.json +
+        // heroes/<class>.json are deleted. (project-ftue-progression / feedback-no-shortcuts-correctness.)
         var firstRun = JsonNode.Parse(await File.ReadAllTextAsync(deps.RespFile("account-information-firstrun.json")))!;
         var result = gameState.BuildAccountInformation((JsonObject)firstRun["Result"]!);
         return Results.Content(new JsonObject { ["Result"] = result }.ToJsonString(deps.JsonOpts), "application/json");
     }
 
     // GAME command channel. The client POSTs a {"commands":[...]} batch; the server processes each and replies
-    // with an empty {} (success, no notifications) or a {"Notifications":[...]} envelope — never {"commands":[]},
-    // which the client rejects as undeserializable (SendCommandsTask failure 0x80044003 → "refreshing account"
-    // infinite loop). The starter-flow BuyCommand ("BuyRandomCastle") must reply with a CastleBoughtNotification
+    // with an EMPTY {} (success, no server notifications) or a {"Notifications":[...]} envelope — NOT
+    // {"commands":[]} (the client rejects that as undeserializable → SendCommandsTask failure 0x80044003 →
+    // "refreshing account" infinite loop). Reference: MQELOffline_cpp ServerCommandService::SendCommand /
+    // Sendreply. The starter-flow BuyCommand ("BuyRandomCastle") must reply with a CastleBoughtNotification
     // (+ SkusModifiersUpdatedNotification) or the starter-castle purchase never completes; all other commands
     // (TrackingCommand, StartAssignmentCommand, ClientIdleCommand, …) just ack with {}.
     if (path.EndsWith("/SendCommands", StringComparison.OrdinalIgnoreCase))
@@ -90,7 +105,7 @@ static class GameEndpoints
                 foreach (var c in cmds.EnumerateArray())
                 {
                     var type = c.TryGetProperty("$type", out var ct) ? (ct.GetString() ?? "") : "";
-                    try   // per-command isolation: one bad command must not drop the rest of the batch
+                    try   // §2.2 — per-command isolation: one bad command must not silently drop the rest of the batch
                     {
                     if (type.Contains("CompleteAssignmentCommand"))
                     {
@@ -128,7 +143,7 @@ static class GameEndpoints
                         int src = c.TryGetProperty("SourceSlotId", out var ss) && ss.TryGetInt32(out var ssv) ? ssv : 0;
                         int dst = c.TryGetProperty("DestinationSlot", out var ds) && ds.TryGetInt32(out var dsv) ? dsv : -1;
                         if (HeroState.SlotName(dst) is { } slotName && eh.Inventory.Remove(src, out var eqitem))
-                            eh.Gear[slotName] = eqitem;   // displaced starter gear is dropped
+                            eh.Gear[slotName] = eqitem;   // displaced starter gear is dropped (FTUE replaces it)
                         else if (dst >= 0)
                             deps.WireLog($"EQUIP DestinationSlot {dst} unmapped (src {src}) — item left in inventory; extend HeroState.SlotName");
                     }
@@ -150,14 +165,15 @@ static class GameEndpoints
                     {
                         // no state change — the client acks that it showed the objective tracker
                     }
-                    // No ObjectiveCompleteCommand case: the client never sends one. Objective completion is
-                    // engine-side; the server only ever sees ObjectiveUnlock/Viewed.
+                    // (No ObjectiveCompleteCommand case: the client NEVER sends one — it has no such contract.
+                    //  Objective completion is engine-side; the server only ever sees ObjectiveUnlock/Viewed.)
                     else if (type.Contains("ExecuteAssignmentActionCommand"))
                     {
-                        // The command carries only {AssignmentId, ActionIndex} — never the action's payload — so
-                        // look the action up in the spec DB via AssignmentCatalog. The only one we react to is
-                        // SetCastleRenovationLevelAssignmentActionSpec, the castle-build system's one server-bound
-                        // mutation (build_get*/buildingNavBar_* are engine-local, never .hqs endpoints).
+                        // The command itself carries ONLY {AssignmentId, ActionIndex} (command-queue.md §5.7) — the
+                        // client never sends the action's payload. Look the action up in the spec DB via
+                        // AssignmentCatalog to learn what it actually is. Today the only one we react to is
+                        // SetCastleRenovationLevelAssignmentActionSpec (the castle-build system's one server-bound
+                        // mutation — build_get*/buildingNavBar_* are engine-local, never .hqs endpoints).
                         if (c.TryGetProperty("AssignmentId", out var eAid) && eAid.TryGetInt32(out var eAidv) &&
                             c.TryGetProperty("ActionIndex", out var eIdx) && eIdx.TryGetInt32(out var eIdxv) &&
                             deps.AssignmentCatalog.GetAction(eAidv, eIdxv) is { } action &&
@@ -173,7 +189,7 @@ static class GameEndpoints
                     }
                     else if (type.Contains("HeroEquipSpellCommand") && gameState.Hero is { } sh)
                     {
-                        // equip an unlocked spell to an action-bar slot (the skill-tree reward)
+                        // equip an unlocked spell to an action-bar slot (the skill-tree reward, e.g. Piercing Shot 158 at L2)
                         int spellId = c.TryGetProperty("SpellId", out var sp) && sp.TryGetInt32(out var spv) ? spv : 0;
                         int slotIdx = c.TryGetProperty("SlotIndex", out var si2) && si2.TryGetInt32(out var siv) ? siv : 0;
                         if (spellId != 0)
@@ -188,10 +204,11 @@ static class GameEndpoints
                 }
         }
         catch (Exception ex) { deps.Logger.LogWarning(ex, "SendCommands: unparseable batch, acking {Path}", path); deps.WireLog($"SendCommands unparseable: {ex.Message}"); }
-        // Only the one-time starter-castle purchase (the first BuyCommand, from StarterCastleSelection/
-        // BuyRandomCastle) gets a CastleBoughtNotification. Later BuyCommands are shop items / traps / rooms
-        // bought in build mode — those must not fire CastleBought (it would spuriously re-grant a castle); they
-        // just ack {}.
+        // (Reverted: forcing a SendCommands failure to trigger "refreshing account" is fatal — the client treats the
+        //  failed SendCommandsTask as an unrecoverable NETWORK ERROR and crashes, not a graceful re-fetch.)
+        // Only the ONE-TIME starter-castle purchase (the first BuyCommand, from StarterCastleSelection/BuyRandomCastle)
+        // gets a CastleBoughtNotification. Later BuyCommands are shop items / traps / rooms bought in build mode —
+        // those must NOT fire CastleBought (it would spuriously re-grant a castle); they just ack {}.
         if (cmdBody.Contains("Contracts.BuyCommand,", StringComparison.OrdinalIgnoreCase) && !gameState.CastleClaimed)
         {
             gameState.CastleClaimed = true;
@@ -199,8 +216,9 @@ static class GameEndpoints
             if (!File.Exists(nf)) nf = Path.Combine(AppContext.BaseDirectory, "responses", "castle-bought-notifications.json");
             return Results.Content(await File.ReadAllTextAsync(nf), "application/json");
         }
-        // SpellViewedCommand just acks like any other command; skill ownership flows through the real
-        // account/progression path, not a pushed SpellUnlockedNotification.
+        // NO force-grant: removed the SpellViewedCommand → SpellUnlockedNotification push that fake-granted the
+        // starter skill when the tree opened. Pushing a fabricated unlock is a workaround; skill ownership must
+        // flow through the real account/progression path. SpellViewedCommand just acks like any other command.
         return Results.Content("{}", "application/json");
     }
 
@@ -225,8 +243,8 @@ static class GameEndpoints
     }
 
     // HeroService.hqs/ChooseFirstHero — player picks a starter class (heroSpecContainerId = eHerotype 2/3/4/5).
-    // Create and serialize that hero, remember it so GetAccountInformation flips to hero-created, and return
-    // {"Result":<hero>}.
+    // Create+serialize that hero (responses/heroes/<class>.json, ported from MQELOffline_cpp Hero_t::Serialize),
+    // remember it so GetAccountInformation flips to hero-created, and return {"Result":<hero>}.
     if (path.EndsWith("/ChooseFirstHero", StringComparison.OrdinalIgnoreCase))
     {
         ctx.Request.Body.Position = 0;
@@ -236,17 +254,21 @@ static class GameEndpoints
         try { using var d = JsonDocument.Parse(b); if (d.RootElement.TryGetProperty("heroSpecContainerId", out var h)) cls = h.GetInt32(); }
         catch { /* default Knight */ }
         if (cls < 2 || cls > 5) cls = 2;
-        // Create the fresh hero in account state (Level 1, XP 0, one consumable, region 1 unlocked, no gear,
-        // no spells). GetAccountInformation then generates the hero-created body from this hero.
+        // Create the fresh hero in account state (reference Backend::Hero::Createhero: Level 1, XP 0, one
+        // consumable, region 1 unlocked, NO gear, NO spells). GetAccountInformation then generates the
+        // hero-created body from this real hero.
         var hero = gameState.CreateHero(cls);
         return Results.Content(new JsonObject { ["Result"] = hero.Serialize() }.ToJsonString(deps.JsonOpts), "application/json");
     }
 
     // AttackSelectionService.hqs/GetCastleInfo — the preview popup shown before the player commits to an attack.
-    // Must be dynamic, keyed by the request's "castleId" query param: the client's subsequent StartAttack uses
-    // THIS response's Id as castleAccountId, so a static single-castle file here would retarget every attack to
-    // whichever castle that file described. Derives the entry from GetAttackSelectionList.json (the single source
-    // of castle metadata) so the two can never drift apart.
+    // MUST be dynamic, keyed by the request's "castleId" query param — confirmed by wire capture (2026-07-07):
+    // client requested ?castleId=3 (the witch dungeon, correctly locked-on by assignment 150), our old STATIC
+    // file replied with a hardcoded Id:4 ("Shamblington", leftover from an earlier fix), and the client's
+    // subsequent StartAttack used castleAccountId:4 — i.e. this response's Id, not the click target, is what
+    // actually gets attacked. A static single-castle file here silently retargets EVERY attack in the game to
+    // whichever castle that file described. Derives from GetAttackSelectionList.json (the single source of
+    // truth for castle metadata) instead of a second hardcoded copy, so the two can never drift apart again.
     if (path.EndsWith("/GetCastleInfo", StringComparison.OrdinalIgnoreCase))
     {
         long castleId = ctx.Request.Query.TryGetValue("castleId", out var cidStr) && long.TryParse(cidStr, out var cidVal) ? cidVal : 0;
@@ -258,7 +280,7 @@ static class GameEndpoints
                 if (lvl?["Castles"] is JsonArray cs)
                     foreach (var c in cs)
                         if (c is JsonObject co && co["DefenderAccountSummary"]?["Id"]?.GetValue<long>() == castleId) { entry = co; break; }
-        entry ??= (JsonObject)list["CastlesByLevel"]![0]!["Castles"]![0]!;   // unknown id -> first known castle
+        entry ??= (JsonObject)list["CastlesByLevel"]![0]!["Castles"]![0]!;   // unknown id -> first known castle, never a wrong-but-plausible one
 
         int rooms = 0, traps = 0;
         var castleFile = deps.RespFile(Path.Combine("castles", castleId + ".json"));
@@ -270,9 +292,10 @@ static class GameEndpoints
         int level = entry["Level"]?.GetValue<int>() ?? 1;
         var summary = entry["DefenderAccountSummary"]!;
         int cp = Math.Max(rooms * 8, 1);
-        // Built via JsonNode.Parse of a text template (not `new JsonObject { ["x"] = 0.5 }`): a raw CLR
-        // double/bool assigned through JsonNode's implicit operators needs deps.JsonOpts to carry a
-        // TypeInfoResolver (it doesn't) and throws at write time. Parsed-JsonElement-backed nodes don't hit that path.
+        // Built via JsonNode.Parse of a text template (not `new JsonObject { ["x"] = 0.5 }`) — a raw CLR double/bool
+        // assigned through JsonNode's implicit operators needs deps.JsonOpts to carry a TypeInfoResolver, which it
+        // doesn't, and throws at write time ("JsonSerializerOptions instance must specify a TypeInfoResolver...").
+        // Parsed-JsonElement-backed nodes (from a file OR from a literal string like this) don't hit that path.
         string json =
             "{\"Result\":{" +
             "\"DefenderAccountSummary\":{\"Id\":" + castleId + ",\"DisplayName\":" + (summary["DisplayName"]?.ToJsonString() ?? "\"\"") + ",\"OasisNameId\":" + (summary["OasisNameId"]?.ToJsonString() ?? "null") + "}," +
@@ -291,11 +314,11 @@ static class GameEndpoints
         return Results.Content(JsonNode.Parse(json)!.ToJsonString(deps.JsonOpts), "application/json");
     }
 
-    // AttackService.hqs/StartAttack — the player attacks a castle. The client needs a full attack payload or the
-    // level never loads (hero spawns on the start rock, can't move): the castle layout to render+fight, the
-    // player's chosen Hero, loot tables + settings. For castles without a real spec we reuse the CastleForSale
-    // "Draft" layout (+ its Result-level archetypes/indices) as the bot castle, stamped AccountId=castleAccountId
-    // / IsTutorialCastle. Tutorial = attackType None(0)/Progression(1).
+    // AttackService.hqs/StartAttack — the player attacks a castle (the tutorial's first combat). The client needs a
+    // FULL attack payload or the level never loads (hero spawns on the start rock, can't move): the castle layout to
+    // render+fight, the player's chosen Hero, loot tables + settings. We reuse the proven-renderable CastleForSale
+    // "Draft" layout (+ its Result-level archetypes/indices) as the bot castle, stamped AccountId=castleAccountId /
+    // IsTutorialCastle. Modeled on MQELOffline_cpp AttackService::StartAttack. Tutorial = attackType None(0)/Progression(1).
     if (path.EndsWith("/StartAttack", StringComparison.OrdinalIgnoreCase))
     {
         ctx.Request.Body.Position = 0;
@@ -313,10 +336,11 @@ static class GameEndpoints
         bool tutorial = attackType == 0 || attackType == 1;
         gameState.LastAttackCastle = (int)castleAccountId;
 
-        // The castle to attack. Prefer the real decrypted castle spec (responses/castles/<id>.json). For the
-        // tutorial (castleAccountId 2 = PVE_00_TUTORIAL_01) this carries the CastleTrigger volumes the client's
-        // Assignment VM coaching waits on, without which the FTUE coaching can't advance. Fall back to the
-        // CastleForSale Draft for any castle without a real spec.
+        // The castle to attack. Prefer the REAL decrypted castle spec (responses/castles/<id>.json). For the tutorial
+        // (castleAccountId 2 = PVE_00_TUTORIAL_01, recovered from settings.bin via bff) this carries the 8 CastleTrigger
+        // volumes the client's Assignment VM coaching waits on — e.g. popup 120001 "Movement"/oasis 10998 ends on
+        // TriggerId 1. Without the real castle's triggers the FTUE coaching can never advance. Fall back to the
+        // CastleForSale Draft (Pink Castle) for any castle we don't yet have a real spec for.
         JsonNode castle;
         var realCastle = deps.RespFile(Path.Combine("castles", castleAccountId + ".json"));
         if (File.Exists(realCastle))
@@ -344,14 +368,17 @@ static class GameEndpoints
         res["AttackerDisplayName"] = gameState.DisplayName;
         // CreatureLoot is keyed by the placed-creature INSTANCE Id (each Rooms[].Creatures[].Id), NOT the
         // SpecContainerId. When a creature dies the client looks up CreatureLoot[entry.Id]; a missing entry
-        // drops zero gold/XP/lifeforce. Cover every creature instance in the attacked castle: keep the hand-tuned
-        // template entries and add a tier-appropriate entry for any instance the template misses, so loot scales
-        // to any castle, not just a fixed id range.
+        // drops zero gold/XP/lifeforce. The static template is sized for the first tutorial castle (instance
+        // Ids 44-81); the 2nd dungeon (castle 3, the witch dungeon: instance Ids 6-51) shares almost none of
+        // those, so its kills granted nothing ("monsters give no XP in the 2nd dungeon"). Cover EVERY instance
+        // in the attacked castle: keep the hand-tuned template entries, add a tier-appropriate entry for any
+        // instance the template misses, so loot scales to ANY castle.
+        // (Root cause: code-analysis/decompiled/account/in-session-state-sync.md §8.)
         if (res["CreatureLoot"] is JsonArray loot)
         {
             var have = new HashSet<int>();
             foreach (var e in loot) if (e?["Id"] is JsonNode idn) have.Add(idn.GetValue<int>());
-            var captains = new HashSet<int> { 1003, 1006, 1023, 1029, 1079, 1155 };   // _Captain/Elite SpecContainerIds -> bigger reward
+            var captains = new HashSet<int> { 1003, 1006, 1023, 1029, 1079, 1155 };   // known _Captain/Elite SpecContainerIds (decrypted spec DB)
             if (castle["Rooms"] is JsonArray rooms)
                 foreach (var room in rooms)
                     if (room?["Creatures"] is JsonArray creatures)
@@ -368,19 +395,22 @@ static class GameEndpoints
         }
         if (gameState.Hero != null)
         {
-            // The combat hero is the player's current hero — gear/level/spells exactly as they are.
+            // The combat hero is the player's real, current hero — gear/level/spells exactly as they are.
             res["Hero"] = gameState.Hero.Serialize();
         }
-        // Stamp the trap's drop to the hero's class first-loot item so the in-mission drop matches what EndAttack
-        // returns (otherwise the player sees one item in-mission but receives a different class's item).
+        // The forest's first-loot is class-appropriate (the tutorial hands you gear your hero can equip): stamp the
+        // trap's drop to the hero's class first-loot item so the IN-MISSION drop matches what EndAttack returns.
+        // (The player saw a generic Mage robe in-mission but received the Archer tunic — that mismatch was exactly
+        // the canned TrapLoot TemplateId 53. See = loot = equip once both reference the same class item.)
         if (gameState.Hero != null && res["TrapLoot"] is JsonArray trapStamp && trapStamp.Count > 0
             && trapStamp[0]?["InventoryItems"] is JsonArray ti0 && ti0.Count > 0 && ti0[0] is JsonObject titem)
             titem["TemplateId"] = AccountState.ClassFirstLootTemplate(gameState.HeroClass);
         // Remember this attack's loot tables (creature gold/xp/lifeforce by instance Id, trap items by ItemId) so
-        // EndAttack can score the client's reported looted-ids by summing these.
+        // EndAttack can SCORE the client's reported looted-ids — the real backend sums these, it does not dictate.
         gameState.AttackCreatureLoot.Clear(); gameState.AttackCreatureItems.Clear(); gameState.AttackTrapLoot.Clear();
         // Map each placed-entity instance Id -> SpecContainerId so EndAttack can count destructions by spec, for
-        // all DefenseIngredientDestroyed condition kinds: Creature, Decoration, and Building.
+        // ALL DefenseIngredientDestroyed condition kinds: Creature (obj 300 "kill 20 chickens" spec 1081),
+        // Decoration (obj 303 "break Nigel out of his box" spec 226), Building (obj 304 "destroy 6 mines" spec 5).
         gameState.AttackCreatureSpec.Clear(); gameState.AttackDecorationSpec.Clear(); gameState.AttackBuildingSpec.Clear();
         if (castle["Rooms"] is JsonArray rsp)
             foreach (var room in rsp)
@@ -419,22 +449,24 @@ static class GameEndpoints
     }
 
     // AttackService.hqs/EndAttack — combat finished. The client reports WHICH placed instances it looted (by Id),
-    // not amounts; we score that against the loot tables sent in the matching StartAttack (summing gold/lifeforce/
-    // xp), credit + persist the gain to the account, and hand back the items the player actually looted.
+    // NOT amounts; we SCORE that against the loot tables sent in the matching StartAttack (summing gold/lifeforce/
+    // xp exactly as the real backend does), CREDIT + PERSIST the gain to the account, and hand back the items the
+    // player actually looted. Verified against a real capture: LootedGold/LifeForceCreatureIds sum to the +34/+34
+    // the player saw in the dungeon HUD. (endAttackParams shape captured in mqel-trace.log.)
     if (path.EndsWith("/EndAttack", StringComparison.OrdinalIgnoreCase))
     {
-        // Read the body as BYTES (not a UTF-8 StreamReader): the trailing replay blob is arbitrary bytes and
-        // UTF-8-decoding it is lossy (→ U+FFFD), which would corrupt the replay. Persist the raw bytes verbatim
-        // before scoring so the audit record exists regardless of what follows.
+        // §5.1 — read the body as BYTES (not a UTF-8 StreamReader: the trailing replay blob is arbitrary bytes and
+        // UTF-8-decoding it is lossy → U+FFFD, which would corrupt the replay). Persist the raw bytes verbatim and
+        // exercise the verification seam BEFORE scoring, so the audit record exists regardless of what follows.
         ctx.Request.Body.Position = 0;
         byte[] raw;
         using (var ms = new MemoryStream()) { await ctx.Request.Body.CopyToAsync(ms); raw = ms.ToArray(); }
         long attackId = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         try { await File.WriteAllBytesAsync(Path.Combine(deps.AuditDir, $"{attackId}_a{gameState.AccountId}_c{gameState.LastAttackCastle}.bin"), raw); } catch { }
-        // The EndAttack POST is a JSON object immediately followed by a binary replay blob — JsonNode.Parse
-        // throws on the trailing data, so parse only the leading JSON (brace-match from the first '{' to its
-        // balanced close). Decoding the whole buffer to a string is safe for scoring: the JSON prefix is valid
-        // UTF-8 and FirstJsonObject stops at its balanced close, never touching the trailing blob.
+        // The EndAttack POST is a JSON object immediately followed by a BINARY replay blob — JsonNode.Parse throws
+        // on the trailing data, so parse ONLY the leading JSON (brace-match from the first '{' to its balanced close).
+        // Decoding the WHOLE buffer to a string here is safe for scoring: the JSON prefix is valid UTF-8 and
+        // FirstJsonObject stops at its balanced close, never touching the (lossy-decoded) trailing blob.
         var body = System.Text.Encoding.UTF8.GetString(raw);
         static string FirstJsonObject(string s)
         {
@@ -473,10 +505,11 @@ static class GameEndpoints
                             lootItems.Add((JsonObject)its[idx].DeepClone());
                     }
                 // Capture killed creature IDs for objective completion detection on subsequent requests.
+                // (No inner try/catch — Ids() never throws, and the whole block is already under the outer catch.)
                 gameState.Attack.LastAttackKilledCreatureIds = Ids("KilledCreatureIds");
                 gameState.Attack.LastAttackDestroyedDecorationIds = Ids("DestroyedDecorationIds");
-                // PillagedMines[] = [{ "CastleBuildingId":9, "IsDestroyed":true, ... }]. Count only
-                // actually-destroyed mines for "destroy N mines" objectives.
+                // PillagedMines[] = [{ "CastleBuildingId":9, "IsDestroyed":true, ... }] (field is CastleBuildingId,
+                // NOT the decompile's MineBuildingId). Count only actually-destroyed mines for "destroy N mines".
                 gameState.Attack.LastAttackPillagedMineBuildingIds = (p["PillagedMines"] as JsonArray)?
                     .Where(m => m?["IsDestroyed"]?.GetValue<bool>() ?? true)
                     .Select(m => m?["CastleBuildingId"]?.GetValue<int>() ?? -1).Where(id => id >= 0).ToArray() ?? Array.Empty<int>();
@@ -484,10 +517,10 @@ static class GameEndpoints
         }
         catch (Exception ex) { deps.Logger.LogWarning(ex, "EndAttack: params parse failed -> zero reward"); deps.WireLog($"EndAttack params parse FAILED: {ex.Message}"); }
 
-        // Exercise the verification seam. The verdict is ignored today (StubVerificationService returns
+        // §5.1 — exercise the verification seam. The verdict is ignored today (StubVerificationService returns
         // valid=true), but the AuditBundle is constructed and the call graph exists, so swapping in real re-sim
-        // later changes no caller. AttackRandomSeed is 0 for now: StartAttack does not yet issue/record a
-        // per-attack seed — thread it through when PvP/anti-cheat lands.
+        // later changes no caller. AttackRandomSeed is 0 for now: StartAttack does not yet issue/record a per-attack
+        // seed — record it there and thread it through when PvP/anti-cheat lands.
         try
         {
             var verifier = ctx.RequestServices.GetRequiredService<IVerificationService>();
@@ -510,7 +543,7 @@ static class GameEndpoints
         int lifeGained = gameState.CreditLifeForce(lifeforce);
         int xpGained = xp, totalXp = xp, preLevel = gameState.HeroLevel, heroLevel = gameState.HeroLevel;
         if (gameState.Hero != null) { totalXp = gameState.Hero.AddXp(xp); heroLevel = gameState.Hero.Level; }
-        bool levelChanged = heroLevel > preLevel;   // HeroXpChanged.LevelChanged — set when a level threshold was crossed
+        bool levelChanged = heroLevel > preLevel;   // HeroXpChanged.LevelChanged (+0x14) — set when a level threshold was crossed
 
         // Response = the template structure with the SCORED Result fields overridden.
         var end = JsonNode.Parse(await File.ReadAllTextAsync(deps.RespFile("attack-tutorial-end.json")))!;
@@ -526,7 +559,7 @@ static class GameEndpoints
         // HeroXpChanged, and one type-111 InboxItemsAdded per looted item (fresh ObjectId so the client can equip it).
         var nots = new JsonArray
         {
-            Notifications.WalletUpdated((2, goldGained), (4, lifeGained)),
+            Notifications.WalletUpdated((2, goldGained), (4, lifeGained)),   // §3.4 — shared builders, single $type table
             Notifications.HeroXpChanged(gameState.HeroClass, xpGained, totalXp, heroLevel, levelChanged),
         };
         foreach (var item in lootItems)
@@ -536,16 +569,17 @@ static class GameEndpoints
             gameState.Inbox[objectId] = (JsonObject)item.DeepClone();   // PERSIST it so InboxCollect can resolve this ObjectId later
             nots.Add(Notifications.InboxItemsAdded("InboxHeroEquipmentItem", item, 3, objectId));
         }
-        // Mission/objective scoring, data-driven over all OBJECTIVESETTINGS missions. MissionManager scores this
-        // raid against every active "Attack" mission scoped to the attacked castle, accumulates per-condition
-        // progress (a mission may span multiple raids/castles), and when all of a mission's conditions are met
-        // completes it + emits the reward notifications in this EndAttack response: type-14 ObjectiveCompleted +
-        // materials (type-111 InboxConsumableItem) / currency (type-24) / gear (type-111) / xp (type-43).
-        // Objective completion is server-authoritative via these notifications — the engine's in-attack condition
-        // ticks are just the HUD; the metagame objective only completes on the type-14.
-        // killedSpecCounts feeds MissionManager's DefenseIngredientDestroyed conditions. Merge creature kills and
-        // decoration destructions by spec — spec ranges don't collide across types (creatures ~1000+, decorations
-        // ~200-300), so one dict is safe.
+        // ── Mission/objective scoring (DATA-DRIVEN — all OBJECTIVESETTINGS missions; replaces the old hardcoded
+        // obj-300 block). The MissionManager scores THIS raid against every active "Attack" mission scoped to the
+        // attacked castle, accumulates per-condition progress (so a mission may span multiple raids/castles), and
+        // when all of a mission's conditions are met it completes it + emits the reward notifications in this
+        // castle's EndAttack response: type-14 ObjectiveCompleted + materials (type-111 InboxConsumableItem) /
+        // currency (type-24) / gear (type-111) / xp (type-43). Ground truth + gotchas: objectives.md; engine:
+        // MissionManager.cs. (Objective completion is SERVER-authoritative via these notifications — the engine's
+        // in-attack condition ticks are just the HUD; the metagame objective only completes on the type-14.)
+        // "destroyed spec counts" feeds MissionManager's DefenseIngredientDestroyed conditions. Merge CREATURE
+        // kills AND DECORATION destructions (e.g. obj 303 "break Nigel's box" = decoration spec 226) by spec —
+        // spec ranges don't collide across types (creatures ~1000+, decorations ~200-300), so one dict is safe.
         var killedSpecCounts = new Dictionary<int, int>();
         foreach (var kid in gameState.Attack.LastAttackKilledCreatureIds)
             if (gameState.AttackCreatureSpec.TryGetValue(kid, out var spec))
@@ -553,23 +587,29 @@ static class GameEndpoints
         foreach (var did in gameState.Attack.LastAttackDestroyedDecorationIds)
             if (gameState.AttackDecorationSpec.TryGetValue(did, out var dspec))
                 killedSpecCounts[dspec] = killedSpecCounts.GetValueOrDefault(dspec) + 1;
-        foreach (var bid in gameState.Attack.LastAttackPillagedMineBuildingIds)   // destroyed mines -> building spec
+        foreach (var bid in gameState.Attack.LastAttackPillagedMineBuildingIds)   // destroyed mines -> building spec (obj 304: 6× spec 5)
             if (gameState.AttackBuildingSpec.TryGetValue(bid, out var bspec))
                 killedSpecCounts[bspec] = killedSpecCounts.GetValueOrDefault(bspec) + 1;
-        // CastleType: campaign story castles are "Ubisoft"; otherwise the raid target is a PvP-tutorial bot
-        // castle (objective 301 is scoped CastleTypes:["User"] and scores CastleEntered + CastleCompleted, not
-        // kills, against a non-campaign AccountId).
+        // CastleType: campaign story castles are "Ubisoft"; the raid target otherwise is a PvP-tutorial bot
+        // castle (objective 301 "Q2 - Friendly Pillage" is scoped CastleTypes:["User"] and never scores kills —
+        // just CastleEntered + CastleCompleted against a non-campaign AccountId). See CampaignCastleIds below.
         string castleType = CampaignCastleIds.Contains(gameState.LastAttackCastle) ? "Ubisoft" : "User";
         var missionCtx = new MissionManager.AttackContext(gameState.LastAttackCastle, castleType, killedSpecCounts, Completed: true);
+        // ⚠️ STOPGAP + DIAGNOSTIC (2026-07-12): send NO objective rewards/completion for these castles. The
+        // post-Area-Shifty-One (castle 102) crash is — per x32dbg — the InboxController binding a null
+        // GameStateManager "current entity" WHILE processing a reward item. Blocking the reward batch stops the
+        // objective completing (client gates completion on receiving all items) so the campaign parks safely at
+        // 102, AND proves the trigger: if the crash vanishes, it's the reward/inbox path, not the transition.
         var missionNots = MissionManager.OnEndAttack(gameState, deps.MissionCatalog, deps.ItemCatalog, missionCtx,
             deps.MissionProgress.GetOrAdd(gameState.AccountId, _ => new()));
         foreach (var mn in missionNots) nots.Add(mn!.DeepClone());
-        // Temporary — fast-forward the FTUE toward base-building. Fallback only: if the natural scoring above
-        // did not complete a mission this raid (the active attack objective can't finish on this castle — a
-        // User/PvP one, or a not-yet-built target castle), force-complete the currently-active attack objective +
-        // grant its rewards. Kept to one mission per castle finish and never fires during the forest/witch
-        // tutorials (no active attack objective yet). Skipped when a type-14 ObjectiveCompleted was already
-        // emitted, so a real raid doesn't also fast-forward the next objective in the same raid.
+        // ⚠️ TEMPORARY CHEAT — fast-forward the FTUE toward base-building (MissionManager.FastForwardNextObjective).
+        // FALLBACK ONLY: if the natural scoring above did NOT complete a mission this raid (i.e. the active attack
+        // objective can't finish on this castle — a User/PvP one, or a not-yet-built target castle), force-complete
+        // the currently-active attack objective + grant its rewards. This keeps it to ONE mission per castle finish
+        // and never fires during the forest/witch tutorials (no active attack objective yet). Guard: skip when a
+        // type-14 ObjectiveCompleted was already emitted, so a real Tybalt raid (obj 300 done by killing chickens)
+        // doesn't ALSO fast-forward 301 in the same raid. Flip FastForwardCheat=false / delete once a real castle exists.
         bool completedNaturally = missionNots.Any(n => (n as JsonObject)? ["NotificationType"]?.GetValue<int>() == 14);
         if (FastForwardCheat && !completedNaturally)
         {
@@ -577,11 +617,12 @@ static class GameEndpoints
             foreach (var fn in ff) nots.Add(fn!.DeepClone());
             if (ff.Count > 0) deps.WireLog($"CHEAT fast-forward: force-completed active attack objective (+{ff.Count} notifs)");
         }
-        // ORDER-CRITICAL: a HeroXpChanged with LevelChanged:true rebuilds the current hero client-side,
-        // transiently nulling the "current entity" view-model. If the InboxController processes a reward
-        // equipment item (type-111 InboxHeroEquipmentItem) during that window, its binding derefs the null model
-        // and crashes. This only happens when a level-up and an equipment reward land in one response. Emit the
-        // level-up last, so every inbox/reward item is processed against a stable hero before the level-up applies.
+        // ⚠️ ORDER-CRITICAL (root-caused via x32dbg 2026-07-12): a HeroXpChanged with LevelChanged:true rebuilds
+        // the current-hero client-side, transiently NULLing the "current entity" view-model. If the InboxController
+        // processes a reward EQUIPMENT item (type-111 InboxHeroEquipmentItem, e.g. obj-303 pet Nigel) during that
+        // window, its binding derefs the null model → crash (FUN_0044e130 `push [esi+10]`, esi=0; caller frame =
+        // Sources\InboxController.cpp). Only obj 303 hits it (level-up + equipment reward in ONE response). Fix: emit
+        // the level-up LAST, so every inbox/reward item is processed against a STABLE hero, then the level-up applies.
         var levelUps = nots.Where(n => (n as JsonObject)?["NotificationType"]?.GetValue<int>() == 43
                                      && (n as JsonObject)?["LevelChanged"]?.GetValue<bool>() == true).ToList();
         foreach (var lu in levelUps) { nots.Remove(lu); nots.Add(lu); }

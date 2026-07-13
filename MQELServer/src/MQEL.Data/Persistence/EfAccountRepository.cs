@@ -11,7 +11,7 @@ public sealed class EfAccountRepository : IAccountRepository
     public EfAccountRepository(GameDbContext db) => _db = db;
 
     // Load the whole aggregate through the single shared include list (AccountGraph) so this path and the
-    // admin snapshot path can't drift apart over which relations are loaded.
+    // admin snapshot path can't drift apart (the drift that lost CraftingMaterials — fableReview §1.1/§3.5).
     static IQueryable<Account> WithGraph(IQueryable<Account> q) => AccountGraph.Includes(q);
 
     public Task<Account?> GetAsync(long accountId, CancellationToken ct = default) =>

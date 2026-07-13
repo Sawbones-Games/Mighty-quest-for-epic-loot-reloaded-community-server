@@ -4,9 +4,10 @@ using MQEL.Core.Model;
 namespace MQEL.Data.Persistence;
 
 /// <summary>
-/// The single definition of "load the whole account aggregate". Both the game-path repository
+/// THE single definition of "load the whole account aggregate". Both the game-path repository
 /// (<see cref="EfAccountRepository"/>) and the admin snapshot/reset endpoints load through this, so the
-/// include list exists exactly once and the two paths can't diverge over which relations are loaded.
+/// include list exists exactly once. A missing Include here can no longer silently diverge between the two
+/// paths — that drift is precisely what dropped CraftingMaterials from the game-path load (fableReview §1.1/§3.5).
 /// AsSplitQuery avoids the cartesian blow-up of many Includes on one query.
 /// </summary>
 public static class AccountGraph

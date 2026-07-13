@@ -1,22 +1,20 @@
 using System.Text.Json.Nodes;
 using MQEL.Core.Model;
 
-// Data-driven mission engine. On every EndAttack it scores the raid against every active "Attack" mission
-// (from MissionCatalog) scoped to the attacked castle, accumulates per-condition progress (a mission may span
-// multiple raids/castles), and when all of a mission's conditions are met it completes the mission + emits the
-// reward notifications in that castle's EndAttack response. Build/Client missions are not scored here (the
-// client completes them; the server only owes their reward).
+// Data-driven mission engine. Replaces the hardcoded per-objective scoring that used to live in EndAttack.
+// On every EndAttack it scores the raid against EVERY active "Attack" mission (from MissionCatalog) scoped to
+// the attacked castle, accumulates per-condition progress (so a mission may span multiple raids/castles), and
+// when ALL of a mission's conditions are met it completes the mission + emits the reward notifications in THAT
+// castle's EndAttack response. Build/Client missions are NOT scored here (the client completes them; the server
+// only owes their reward — wire that when we learn how the client signals build completion).
 //
-// Progress accumulation is held in a per-account in-memory cache (the `progress` dict the caller supplies).
-// It survives between EndAttacks within a session but does not persist across a reconnect — single-castle
-// missions (all current campaign Attack objectives) complete in one raid, so that gap only affects a
-// multi-castle mission interrupted by a reconnect.
+// Progress accumulation is held in a per-account IN-MEMORY cache (the `progress` dict the caller supplies,
+// mirroring AttackScratch). It survives between EndAttacks within a session; it does NOT yet persist across a
+// reconnect — single-castle missions (all current campaign Attack objectives) complete in one raid, so that gap
+// only affects a hypothetical multi-castle mission interrupted by a reconnect. Persisting it is the documented
+// next increment. See code-analysis/rest-api/objectives.md.
 static class MissionManager
 {
-    // The client gates objective completion on receiving all reward items: a missing reward stalls the
-    // objective, a wrongly-serialized one crashes the client. Kept false so item rewards are always sent.
-    const bool SkipItemRewards = false;
-
     public readonly record struct AttackContext(
         int CastleId, string CastleType, IReadOnlyDictionary<int, int> KilledSpecCounts, bool Completed);
 
@@ -54,12 +52,22 @@ static class MissionManager
 
             obj.Status = 2; obj.LastStatusUtc = DateTime.UtcNow;                     // persisted → reconnect sees it done
             progress.Remove(def.Id);
-            nots.Add(Notifications.ObjectiveCompleted(def.Id));
+            // ORDER-CRITICAL (crash-bisected via /api/rewardstage 2026-07-12): emit the reward ITEMS (type-111)
+            // BEFORE ObjectiveCompleted (type-14). The client's objective-complete popup renders the inbox reward
+            // items; if type-14 fires before the items are in the inbox, it binds a null model → crash (the
+            // InboxController / null GameStateManager "current entity" the x32dbg trace pinned). Items-first =
+            // clean (stages 1-5 all passed once the items preceded the completion).
             foreach (var r in def.Rewards) EmitReward(r, gs, items, nots);
+            nots.Add(Notifications.ObjectiveCompleted(def.Id));
 
-            // Chain-unlock: push a type-17 in the same response to unlock the next objective whenever its
-            // Requirements are now fully satisfied. The backend owns this unlock (the FTUE assignment VM does
-            // not drive it client-side), so the server emits it.
+            // Chain-unlock: reference capture confirms the real backend pushes type-17 in the SAME response to
+            // unlock the next objective (objectives.md §3.2 — "{...AccountObjective:{ObjectiveId:303,Status:1,
+            // ...},NotificationType:17}"). We'd assumed the FTUE's own assignment VM (e.g. 000180) would drive
+            // this instead via its own UnlockObjectiveAssignmentActionSpec — confirmed WRONG for at least one
+            // real case (301 after 300: the assignment's bare AssignmentCompletedAssignmentTriggerSpec never
+            // fires client-side, live-verified via CDP objective_getAllObjectives showing UnlockedObjectives:[]
+            // indefinitely). Push it ourselves whenever a mission's Requirements are now fully satisfied — the
+            // authoritative, already-proven mechanism, not a new one.
             foreach (var next in catalog.All)
             {
                 if (next.Id == def.Id || next.RequiresObjectiveIds.Count == 0) continue;
@@ -73,33 +81,40 @@ static class MissionManager
         return nots;
     }
 
-    // TEMPORARY: fast-forward the currently-active User/PvP attack objective. User-castle raids can't validate
-    // without a real defended castle (unlocks only at castle-renovation rank 4), so when such an objective is
-    // unlocked (Status 1) the next castle finish grants its rewards + completes it + emits the type-17 chain-
-    // unlock. Remove once a real defended castle exists (along with the call in GameEndpoints.EndAttack).
+    // ─────────────────────────────────────────────────────────────────────────────────────────────────────
+    // ⚠️ TEMPORARY CHEAT (2026-07-10) — REMOVE after bootstrapping to base-building.
+    // Reason: the attack-tutorial castles 101-104/14 (objectives 302-306) aren't built, and User-castle raids
+    // can't validate (need a real defended castle, which unlocks only at castle-renovation rank 4 = base
+    // building). To break that chicken-and-egg, when the game has ASKED the player for a castle mission (an
+    // "Attack" objective the client has UNLOCKED = Status 1), the NEXT castle finish (ANY castle) grants that
+    // mission's exact rewards + completes it + the type-17 chain-unlock — one mission per castle finish.
     //
-    // Only ever completes the currently-active (Status 1) attack objective, never a still-locked one — so the
-    // forest and first-time witch tutorials (no attack objective active) grant nothing; this only kicks in once
-    // the client unlocks Tybalt (obj 300), then 301, 302, … each on the next castle finish.
+    // CRITICAL — do NOT advance prematurely: only ever complete the currently-ACTIVE (Status 1) attack
+    // objective, NEVER one that isn't unlocked yet. That way the forest + first-time witch/Bewarewich tutorials
+    // (no attack objective active yet) grant NOTHING; the fast-forward only kicks in once the client asks for
+    // Tybalt (obj 300 → ObjectiveUnlockCommand → Status 1), then 301, 302, … each on the next castle finish.
+    // Once we have a real defended castle, DELETE this + the call in GameEndpoints.EndAttack and implement the
+    // chain correctly. Tracking: project-pvp-tutorial-bot-castles memory (defender-entity finding).
     public static JsonArray FastForwardNextObjective(AccountState gs, MissionCatalog catalog, ItemCatalog items)
     {
         var nots = new JsonArray();
-        // Pick the active PvP mission: unlocked (Status 1) + Attack + CastleTypes["User"]. Only User/PvP
-        // objectives use this workaround; PvE objectives (302-306, fixed to real dungeons) complete via
-        // OnEndAttack natural condition tracking.
+        // The one PvP mission the game is asking for RIGHT NOW: unlocked (Status 1) + Attack + CastleTypes["User"].
+        // ONLY User/PvP objectives (e.g. 301 "Friendly Pillage") get the workaround — they can't validate without a
+        // real defended castle. PvE objectives (302-306, fixed CastleId to real dungeons) are done PROPERLY: the
+        // player attacks the real castle and MissionManager.OnEndAttack completes them via natural condition tracking.
         var pick = gs.Objectives.Where(o => o.Status == 1)
             .Select(o => (obj: o, def: catalog.All.FirstOrDefault(d => d.Id == o.ObjectiveId)))
             .Where(x => x.def is { Category: "Attack" }
                      && x.def.CastleTypes.Any(t => string.Equals(t, "User", StringComparison.OrdinalIgnoreCase)))
             .OrderBy(x => x.obj.ObjectiveId)
             .FirstOrDefault();
-        if (pick.def is null) return nots;                                           // no active PvP mission -> grant nothing
+        if (pick.def is null) return nots;                                           // no active PvP mission -> grant NOTHING
         var def = pick.def; var obj = pick.obj;
 
         var now = DateTime.UtcNow;
-        obj.Status = 2; obj.LastStatusUtc = now;                                      // complete the active mission
+        obj.Status = 2; obj.LastStatusUtc = now;                                      // complete the ACTIVE mission
+        foreach (var r in def.Rewards) EmitReward(r, gs, items, nots);              // rewards FIRST (items before type-14 — see OnEndAttack note)
         nots.Add(Notifications.ObjectiveCompleted(def.Id));
-        foreach (var r in def.Rewards) EmitReward(r, gs, items, nots);              // this mission's rewards
 
         foreach (var next in catalog.All)                                          // type-17 unlock any now-eligible next
         {
@@ -124,7 +139,7 @@ static class MissionManager
     {
         switch (r.Kind)
         {
-            case "Materials":   // → one type-111 InboxConsumableItem per unit
+            case "Materials":   // → one type-111 InboxConsumableItem per unit (verified delivery path, objectives.md §3.3)
                 foreach (var (mid, qty) in r.Materials)
                 {
                     gs.CraftingMaterials[mid] = gs.CraftingMaterials.GetValueOrDefault(mid) + qty;
@@ -154,11 +169,11 @@ static class MissionManager
                 break;
 
             case "Item":        // → type-111 InboxHeroEquipmentItem.
-                // Mirror the item shape from the objective spec's reward `Item`. A pet (HeroNamedItem) carries
-                // only {ItemLevel, TemplateId} — no per-instance stats/archetype (all its data is on the
-                // template); adding gear fields makes the client crash building the item model. Only real gear
-                // (spec supplied an archetype) gets the full stat shape below.
-                if (SkipItemRewards) break;
+                // Deliver the item as the objective spec defines its reward `Item`: for the obj-303 "pet Nigel"
+                // (84349, a HeroNamedItem) that's minimal {ItemLevel, TemplateId} — a named item carries no
+                // per-instance archetype/stats (all its data lives on the template). Regular equipment rewards
+                // with a real archetype get the full stat shape below. (The obj-303 crash was NOT this shape —
+                // it was reward ITEMS being emitted after ObjectiveCompleted; see the emit-order note above.)
                 {
                     var heroItem = new JsonObject { ["ItemLevel"] = r.ItemLevel, ["TemplateId"] = r.ItemTemplateId };
                     if (r.ItemArchetypeId > 0)   // real gear (spec supplied an archetype) → full stat shape

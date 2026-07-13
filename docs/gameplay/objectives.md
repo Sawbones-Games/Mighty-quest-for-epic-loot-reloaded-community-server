@@ -58,8 +58,8 @@ either** — verify live, don't assume retail data "just works" in our reimpleme
    live before depending on it; don't assume retail data "just works" once ported.**
 
 ## REST / wire
-The endpoint shapes (the completion/unlock notification types, the `AccountObjective` shape, the objective
-spec conditions/reward) are defined by the client's wire protocol.
+Endpoint shapes (the completion/unlock notification types, the `AccountObjective` shape, the objective spec
+conditions/reward) are owned by **[`../code-analysis/rest-api/objectives.md`](../../code-analysis/rest-api/objectives.md)**.
 Notification mechanism: [notifications.md](notifications.md). The objective's authoritative definition is the
 decrypted spec `GeneralSettings/OBJECTIVESETTINGS.JSON`.
 
@@ -81,9 +81,11 @@ data problem, not a code problem, UNLESS its conditions use a `Kind` `MissionCat
 - **The client never sends an `ObjectiveCompleteCommand`** — completion is server-push only.
 - **Don't assume an assignment-VM trigger fires just because it's retail data** — see "Chaining" above. Verify
   live (CDP) before depending on it; the proven server-push (type-17) is the safer default when in doubt.
-- Cosmetic gap (does not block progression): the world-map castle ring needs more real seed castles.
+- Cosmetic gap (does not block progression): the world-map castle ring needs more real seed castles — see
+  [`docs/OPEN_ISSUES.md`](../../docs/OPEN_ISSUES.md).
 
 ## Related
+- [code-analysis/rest-api/objectives.md](../../code-analysis/rest-api/objectives.md) — the authoritative wire
 - [notifications.md](notifications.md) — the type-14/17 delivery mechanism
 - [tutorial-steps.md](../content/tutorial-steps.md) — how an objective is unlocked by the assignment chain
 - [castles.md](../content/castles.md) — serving the quest's castle · [castle-building.md](../content/castle-building.md) — the renovation system

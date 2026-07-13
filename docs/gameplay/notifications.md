@@ -4,7 +4,7 @@
 
 ## Purpose
 
-The client does **not** re-fetch the account (`GetAccountInformation`)
+The client does **not** re-fetch the account ([`GetAccountInformation`](../../code-analysis/decompiled/account/account-load.md))
 after every change. Instead, the server pushes **notifications** in the response to the request that caused
 the change, and the client **applies each one to its live in-memory view-models**. This is the single most
 important mechanism in the metagame server: almost every "value is stuck / didn't update" bug was a
@@ -41,22 +41,23 @@ catalogs the notification types we send; **per-feature docs link here instead of
 
 | Type | `$type` | Carries | Used by | Shape |
 |---|---|---|---|---|
-| **24** | `WalletUpdatedNotification` | `Amounts[{CurrencyType,Amount(delta)}]` | [wallet.md](wallet.md), [combat-rewards.md](combat-rewards.md) | attack-service §3.2 |
-| **43** | `HeroXpChangedNotification` | `XpAdded, TotalXp, Level, LevelChanged` | [hero-progression.md](hero-progression.md) | attack-service §3.2 |
-| **47** | `WalletCapacityUpdatedNotification` | `CurrencyType, Amount(=cap)` | [wallet.md](wallet.md) | attack-service §3.2 |
-| **111** | `InboxItemsAddedNotification` | `InboxItems[{$type,HeroItem,ItemType,ObjectId}]` | [combat-rewards.md](combat-rewards.md), [objectives.md](objectives.md) | attack-service §3.2 |
-| **14** | `ObjectiveCompletedNotification` | `ObjectiveId` | [objectives.md](objectives.md) | objectives wire §3.3 |
-| **17** | `ObjectiveUnlockedNotification` | `AccountObjective{ObjectiveId,Status,LastStatusDate}` | [objectives.md](objectives.md) | objectives wire §3.3 |
+| **24** | `WalletUpdatedNotification` | `Amounts[{CurrencyType,Amount(delta)}]` | [wallet.md](wallet.md), [combat-rewards.md](combat-rewards.md) | [attack-service §3.2](../../code-analysis/rest-api/attack-service.md) |
+| **43** | `HeroXpChangedNotification` | `XpAdded, TotalXp, Level, LevelChanged` | [hero-progression.md](hero-progression.md) | [attack-service §3.2](../../code-analysis/rest-api/attack-service.md) |
+| **47** | `WalletCapacityUpdatedNotification` | `CurrencyType, Amount(=cap)` | [wallet.md](wallet.md) | [attack-service §3.2](../../code-analysis/rest-api/attack-service.md) |
+| **111** | `InboxItemsAddedNotification` | `InboxItems[{$type,HeroItem,ItemType,ObjectId}]` | [combat-rewards.md](combat-rewards.md), [objectives.md](objectives.md) | [attack-service §3.2](../../code-analysis/rest-api/attack-service.md) |
+| **14** | `ObjectiveCompletedNotification` | `ObjectiveId` | [objectives.md](objectives.md) | [objectives wire §3.3](../../code-analysis/rest-api/objectives.md) |
+| **17** | `ObjectiveUnlockedNotification` | `AccountObjective{ObjectiveId,Status,LastStatusDate}` | [objectives.md](objectives.md) | [objectives wire §3.3](../../code-analysis/rest-api/objectives.md) |
 
-> This table is the **index** of which notification drives which feature — it never restates the JSON.
+> The authoritative JSON for each shape lives in `code-analysis/` (linked above). This table is the **index**
+> of which notification drives which feature — it never restates the JSON.
 
 ## Design notes & gaps
 
 - **The envelope is NOT `{"commands":[]}`.** That's the `SendCommands` *command* channel; the notification
   envelope uses `Notifications`. Returning the wrong wrapper crashes the client
-  (gameserver-commands).
-- Notification-type integers are **not** catalogued in one place in the binary (the dumped contract catalog is
-  incomplete for notifications). Ground truth for the rarer ones is the
+  ([gameserver-commands](../../code-analysis/rest-api/gameserver-commands.md)).
+- Notification-type integers are **not** catalogued in one place in the binary (the dumped
+  `gameserver-catalog.txt` is incomplete for notifications). Ground truth for the rarer ones is the
   `MQELOffline_cpp` real captures — confirm a type empirically (the client ignores wrong ones silently).
 - `NotificationType:14`/`17` (objectives) were recovered from the reference capture, not the catalog. Type-14
   has been in active use since objective 300; type-17 was documented from the capture early on but only put into
@@ -65,4 +66,6 @@ catalogs the notification types we send; **per-feature docs link here instead of
 
 ## Related
 - [progression-loop.md](progression-loop.md) — the loop these notifications drive, + the dead-ends
+- [code-analysis/rest-api/attack-service.md](../../code-analysis/rest-api/attack-service.md) — authoritative notification JSON
+- [code-analysis/rest-api/response-contracts.md](../../code-analysis/rest-api/response-contracts.md) — the `ServerCommandType` enum (the command channel)
 </content>

@@ -13,10 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Bundled game-design data + file-backed static responses travel with the app so a published /
-         Docker build finds them next to the DLL (see ItemCatalog.FindDataRoot / the responses/ loaders). -->
-    <Content Update="data\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Update="responses\**\*" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <!-- expose the internal AccountMapper/AccountState to the persistence round-trip tests -->
+    <InternalsVisibleTo Include="MQEL.Tests" />
   </ItemGroup>
 
 </Project>

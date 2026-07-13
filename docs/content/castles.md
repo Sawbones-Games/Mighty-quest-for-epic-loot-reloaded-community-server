@@ -9,7 +9,7 @@ Every "send your hero into a castle" session — FTUE dungeons, PvE campaign cas
 the server to hand the client a **full castle layout** to render and fight. This doc is the durable how-to for
 **turning a decrypted castle spec into a served castle**, what the client requires in it, and the gotchas that
 have bitten us. It is the companion to [tutorial-steps.md](tutorial-steps.md) (the coaching that wraps a
-castle) and the wire shape in attack-service.md (the source of
+castle) and the wire shape in [attack-service.md](../../code-analysis/rest-api/attack-service.md) (the source of
 truth for the JSON).
 
 ## Key code
@@ -20,7 +20,7 @@ truth for the JSON).
 | [`GameEndpoints.cs` EndAttack](../../MQELServer/src/MQEL.Gameserver/GameEndpoints.cs) | scores looted instance-Ids vs the stored tables; credits + notifies; derives `CastleType` from `CampaignCastleIds` |
 | [`GameEndpoints.cs` GetCastleInfo](../../MQELServer/src/MQEL.Gameserver/GameEndpoints.cs) | dynamic per-castle world-map info (win ratio, room/trap counts) — reads `?castleId=` and cross-references `GetAttackSelectionList.json` + the real castle file; NOT a static response file |
 | [`responses/castles/*.json`](../../MQELServer/src/MQEL.Gameserver/responses/castles/) | the served castle layouts (the source of truth — see the bin gotcha) |
-| `tools/make_tutorial_castle.py` | transforms a decrypted spec → a served castle file (17 castles baked as of 2026-07-07) |
+| [`tools/make_tutorial_castle.py`](../../tools/make_tutorial_castle.py) | transforms a decrypted spec → a served castle file (17 castles baked as of 2026-07-07) |
 | [`responses/AttackSelectionService.hqs/GetAttackSelectionList.json`](../../MQELServer/src/MQEL.Gameserver/responses/AttackSelectionService.hqs/GetAttackSelectionList.json) | the world-map list of attackable castles |
 
 ## How it works
@@ -28,7 +28,7 @@ truth for the JSON).
 ### 1. Where castle specs come from
 The decrypted spec DB has **96 PvE castle layouts** at
 `game-data/settings-extracted/GameplaySettings/Castles/` (decrypted with `bff` — see
-attack-service.md §2). Each is named
+[attack-service.md §2](../../code-analysis/rest-api/attack-service.md)). Each is named
 `NNNNNN - <CODENAME>.JSON` where the leading number is the castle's `AccountId` (e.g. `000002 -
 PVE_00_TUTORIAL_01`, `000100 - PVE_R01Q010_CHICKENFARM` = Tybalt's Farm). This is the authoritative source —
 **never hand-author a castle layout.**
@@ -38,7 +38,7 @@ PVE_00_TUTORIAL_01`, `000100 - PVE_R01Q010_CHICKENFARM` = Tybalt's Farm). This i
 1. add `"$type": "HyperQuest.GameServer.Contracts.UbisoftCastle, …"` (the polymorphic discriminator the
    client's deserializer selects the reader by — without it the castle won't parse),
 2. **drop `CustomAttackerReward`** (server-internal class-aware loot; we handle rewards in EndAttack instead —
-   see attack-service.md §6),
+   see [attack-service.md §6](../../code-analysis/rest-api/attack-service.md)),
 3. stamp `AccountId` = the map id.
 
 Add a castle by extending the `CASTLES` dict and re-running it. Output → `responses/castles/<id>.json`.
@@ -68,7 +68,7 @@ plus a **17-castle PvP-tutorial bot pool** spread across 3 levels (L1: 4,5,71 ·
 8,9,10,74,75,76,80 — scored `CastleType:"User"`), all real spec-derived layouts, no leaked/fake data. The list
 is **static** today; it becomes dynamic with multi-user/castle-building. **Known gap:** opponent castles render
 in a 360° ring evenly distributed by count — too few castles in a level leaves visible empty gaps in the ring
-(cosmetic, not a scoring bug).
+(cosmetic, not a scoring bug) — tracked in [`docs/OPEN_ISSUES.md`](../OPEN_ISSUES.md).
 
 ## How to …
 
@@ -100,10 +100,11 @@ implemented so far. The transient per-attack loot tables live in `AttackScratch`
   `CampaignCastleIds` on EndAttack — NOT hardcoded, NOT passed through from the client (a prior bug hardcoded
   it to `"Ubisoft"` always, silently blocking PvP objective scoring). `attackType` (0/1 = tutorial/progression …
   4 = validation, 5 = visit) IS passed through from the StartAttack request — see
-  attack-service.md §3.1.
+  [attack-service.md §3.1](../../code-analysis/rest-api/attack-service.md).
 
 ## Related
 - [tutorial-steps.md](tutorial-steps.md) — the coaching/assignment layer that wraps a castle
 - [progression-loop.md](../gameplay/progression-loop.md) — the StartAttack→EndAttack reward scoring in full
-- attack-service.md — the authoritative castle/attack JSON shape
+- [attack-service.md](../../code-analysis/rest-api/attack-service.md) — the authoritative castle/attack JSON shape
+- [`.opencode/plans/tybalts-farm-castle.md`](../../.opencode/plans/tybalts-farm-castle.md) — the current castle-implementation plan
 </content>

@@ -17,7 +17,7 @@ renovation levels).
 **The ONE server-bound piece of this system**, confirmed correct by both a direct simulation AND real live play:
 the client reports a renovation level-up via `SendCommands → ExecuteAssignmentActionCommand{AssignmentId,
 ActionIndex}` — this command carries ONLY those two integers, never the action's payload
-(command-queue.md §5.7). The server resolves it back to the
+([command-queue.md](../../code-analysis/rest-api/command-queue.md) §5.7). The server resolves it back to the
 real `SetCastleRenovationLevelAssignmentActionSpec{CastleRenovationLevel}` via two new catalogs:
 
 - **[`AssignmentCatalog`](../../MQELServer/src/MQEL.Gameserver/AssignmentCatalog.cs)** — indexes every
@@ -58,20 +58,22 @@ end-to-end without ever needing to serve them.
    already known from `CASTLERENOVATIONSETTINGS.JSON`) — should "just work" once the player reaches them, but
    not yet playtested.
 3. The build-mode **commands** (`AddCastleRoom`/`Trap`/`Building`/`UpgradeBuilding`… — see the
-   `ServerCommandType` enum) for the eventual build
+   [`ServerCommandType` enum](../../code-analysis/rest-api/response-contracts.md)) for the eventual build
    tutorial (`130/140/145/170` assignment chain).
 4. `attackType:4` **castle validation** (the validate-your-castle step).
 5. Real castle 101 ("Fendrick's Farm") — objective 302 needs it, not yet built. See
-   objectives.md §"Next system".
+   [objectives.md §"Next system"](../../code-analysis/rest-api/objectives.md).
 
 ## REST / wire
 Nothing new to trace — the ONE server-bound mutation (`ExecuteAssignmentActionCommand`) is implemented and
 verified; the `build_get*` calls are confirmed engine-local (no wire shape to capture). If real build-mode
-placement is tackled later, THAT will need a fresh tracing pass.
+placement is tackled later, THAT will need a fresh `trace-rest-endpoint`/`inspect-live-client` pass.
 
 ## Related
 - [objectives.md](../gameplay/objectives.md) — the reward/unlock chain that hands off into this
 - [tutorial-steps.md](tutorial-steps.md) — the assignment chain (`005006`/`005007`, `130/140/145/170`)
 - [castles.md](castles.md) — serving a campaign castle layout (the *attack* side; build is the inverse, and
   structurally different — campaign rooms are fight-level layouts, not buildable player rooms)
+- [STATUS.md](../STATUS.md) — current frontier
+- [`docs/OPEN_ISSUES.md`](../OPEN_ISSUES.md) — tracked deferred gaps (world-map castle ring)
 </content>

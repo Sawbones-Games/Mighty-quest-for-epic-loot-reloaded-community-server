@@ -15,18 +15,18 @@ sealed class ItemCatalog
     public int SkuCount => _skus.Count;
     public int TemplateCount => _templates.Count;
 
-    public static ItemCatalog Load(string dataRoot)
+    public static ItemCatalog Load(string specRoot)
     {
         var c = new ItemCatalog();
 
-        var skuDoc = JsonNode.Parse(File.ReadAllText(Path.Combine(dataRoot, "items", "shop-skus.json")))!;
+        var skuDoc = JsonNode.Parse(File.ReadAllText(Path.Combine(specRoot, "GameplaySettings", "ShopSettings", "SHOPSKUBASESETTINGS.JSON")))!;
         foreach (var s in skuDoc["Skus"]!.AsArray())
         {
             if (s is null || (string?)s["Code"] is not { } code) continue;
             c._skus[code] = new SkuInfo((int?)s["ItemId"] ?? 0, (int?)s["Price"]?["CurrencyType"] ?? 0, (int?)s["Price"]?["Amount"] ?? 0);
         }
 
-        var tplDoc = JsonNode.Parse(File.ReadAllText(Path.Combine(dataRoot, "items", "hero-item-templates.json")))!;
+        var tplDoc = JsonNode.Parse(File.ReadAllText(Path.Combine(specRoot, "GameplaySettings", "HeroItems", "HEROITEMTEMPLATES.JSON")))!;
         foreach (var t in tplDoc["TemplateList"]!.AsArray())
         {
             if (t is null || (int?)t["Id"] is not { } id) continue;
@@ -52,19 +52,13 @@ sealed class ItemCatalog
         };
     }
 
-    // Locate the bundled game-design data folder (our own layout — see data/README.md). Tries the working
-    // dir first (dev: run from the project dir), then the app base dir (published / Docker), then walks up
-    // from the working dir (robust to where the exe is launched), keyed off the assignments/ marker.
-    public static string? FindDataRoot()
+    // Walk up from the working dir to locate game-data/settings-extracted (robust to where the exe is launched).
+    public static string? FindSpecRoot()
     {
-        var cwd = Path.Combine(Directory.GetCurrentDirectory(), "data");
-        if (Directory.Exists(cwd)) return cwd;
-        var baseDir = Path.Combine(AppContext.BaseDirectory, "data");
-        if (Directory.Exists(baseDir)) return baseDir;
         for (var dir = new DirectoryInfo(Directory.GetCurrentDirectory()); dir != null; dir = dir.Parent)
         {
-            var candidate = Path.Combine(dir.FullName, "data");
-            if (Directory.Exists(Path.Combine(candidate, "assignments"))) return candidate;
+            var candidate = Path.Combine(dir.FullName, "game-data", "settings-extracted");
+            if (Directory.Exists(candidate)) return candidate;
         }
         return null;
     }

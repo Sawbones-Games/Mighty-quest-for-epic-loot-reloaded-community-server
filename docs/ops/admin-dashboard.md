@@ -43,8 +43,9 @@ path** (`AccountMapper.ApplyTo` over the graph), only the source is a freshly-bu
 a template, and it drops the transient combat scratch. **Relaunch the game after resetting.**
 
 ## REST / wire
-None — this is server-internal admin, deliberately **not** part of the game ↔ server protocol. The account
-state these endpoints read/write lives in [persistence.md](persistence.md).
+None — this is server-internal admin, deliberately **not** in [`code-analysis/`](../../code-analysis/README.md)
+(which owns the game ↔ server protocol). The account state these endpoints read/write lives in
+[persistence.md](persistence.md).
 
 ## Design notes & gaps
 - The reset/snapshot endpoints go through `/api/*`, which (like the game requests) is fine while the game is

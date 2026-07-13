@@ -1,0 +1,15 @@
+# MQEL private server — Step 1 (capture host). Intended target: a TrueNAS Docker host, headless.
+# Postgres + Blazor admin UI get added to this compose file once those land.
+services:
+  gameserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mqel-gameserver:dev
+    ports:
+      - "8080:8080"          # point PublicLauncherSettings.json at http://<host>:8080
+    environment:
+      ASPNETCORE_URLS: "http://0.0.0.0:8080"
+    volumes:
+      - ./captures:/app/captures   # persisted capture transcript (gitignored — may contain Steam tickets)
+    restart: unless-stopped

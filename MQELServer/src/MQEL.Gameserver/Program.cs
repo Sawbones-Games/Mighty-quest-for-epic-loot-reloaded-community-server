@@ -9,38 +9,39 @@ using MQEL.Verification;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Verification seam — the stub returns valid=true for all requests.
+// The verification seam — stubbed today (returns valid=true). The audit substrate (persisting seed /
+// result / replay / castle snapshot) is the gameserver's job and is wired in once we have a schema.
 builder.Services.AddSingleton<IVerificationService, StubVerificationService>();
 
-// Per-account persistence — the EF Core data layer behind IAccountRepository (SQLite, or Postgres via the
-// provider in AddDataLayer). Backend chosen by the "Storage" config section.
+// Per-account persistence — the EF Core data layer behind the IAccountRepository black box (SQLite today,
+// Postgres-ready via the provider in AddDataLayer). Backend chosen by the "Storage" config section.
 var storageOptions = builder.Configuration.GetSection(StorageOptions.SectionName).Get<StorageOptions>() ?? new StorageOptions();
 builder.Services.AddDataLayer(storageOptions);
 
 // Game-design catalogs from the decrypted spec DB — immutable after load, so DI singletons. Registered as
-// factories that fall back to an empty catalog on load failure, and force-resolved at startup for eager load.
+// factories (fallback to empty on load failure) and force-resolved at startup for eager load + the count logs.
 builder.Services.AddSingleton(sp =>
 {
     var log = sp.GetRequiredService<ILogger<Program>>();
-    try { return ItemCatalog.FindDataRoot() is { } r ? ItemCatalog.Load(r) : new ItemCatalog(); }
+    try { return ItemCatalog.FindSpecRoot() is { } r ? ItemCatalog.Load(r) : new ItemCatalog(); }
     catch (Exception ex) { log.LogWarning(ex, "ItemCatalog load failed — store buys won't resolve"); return new ItemCatalog(); }
 });
 builder.Services.AddSingleton(sp =>
 {
     var log = sp.GetRequiredService<ILogger<Program>>();
-    try { return MissionCatalog.FindDataRoot() is { } r ? MissionCatalog.Load(r) : new MissionCatalog(); }
+    try { return MissionCatalog.FindSpecRoot() is { } r ? MissionCatalog.Load(r) : new MissionCatalog(); }
     catch (Exception ex) { log.LogWarning(ex, "MissionCatalog load failed — objective rewards won't fire"); return new MissionCatalog(); }
 });
 builder.Services.AddSingleton(sp =>
 {
     var log = sp.GetRequiredService<ILogger<Program>>();
-    try { return AssignmentCatalog.FindDataRoot() is { } r ? AssignmentCatalog.Load(r) : new AssignmentCatalog(); }
+    try { return AssignmentCatalog.FindSpecRoot() is { } r ? AssignmentCatalog.Load(r) : new AssignmentCatalog(); }
     catch (Exception ex) { log.LogWarning(ex, "AssignmentCatalog load failed — ExecuteAssignmentActionCommand won't resolve"); return new AssignmentCatalog(); }
 });
 builder.Services.AddSingleton(sp =>
 {
     var log = sp.GetRequiredService<ILogger<Program>>();
-    try { return CastleRenovationCatalog.FindDataRoot() is { } r ? CastleRenovationCatalog.Load(r) : new CastleRenovationCatalog(); }
+    try { return CastleRenovationCatalog.FindSpecRoot() is { } r ? CastleRenovationCatalog.Load(r) : new CastleRenovationCatalog(); }
     catch (Exception ex) { log.LogWarning(ex, "CastleRenovationCatalog load failed — renovation costs won't resolve"); return new CastleRenovationCatalog(); }
 });
 
@@ -51,14 +52,14 @@ using (var migrateScope = app.Services.CreateScope())
 {
     var migrateDb = migrateScope.ServiceProvider.GetRequiredService<GameDbContext>();
     migrateDb.Database.Migrate();
-    // WAL mode (stored in the DB file header, set once) lets readers (the dashboard poll) and the game's
-    // writers proceed without blocking each other. ExecuteSqlRaw returns a row for PRAGMA journal_mode; ignored.
+    // §3.3 — WAL is stored in the DB file header (set once, persists): readers (the dashboard poll) don't block
+    // the game's writers and vice-versa. ExecuteSqlRaw returns a row for PRAGMA journal_mode; that's ignored.
     if (storageOptions.Provider.Equals("Sqlite", StringComparison.OrdinalIgnoreCase))
         try { migrateDb.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL;"); } catch { }
 }
 
-// ── Admin dashboard (wwwroot) — served by a small explicit file-send middleware, ahead of the capture logger
-//    and the game catch-all. (UseStaticFiles wouldn't short-circuit under this app's catch-all routing; a
+// ── Admin dashboard (wwwroot) — served by a small explicit file-send middleware, ahead of the capture rig +
+//    the game catch-all. (UseStaticFiles wouldn't short-circuit under this app's catch-all routing pipeline; a
 //    direct SendFileAsync is robust and keeps UI requests out of the capture + per-account path.)
 var uiRoot = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 var uiTypes = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -74,7 +75,7 @@ app.Use(async (ctx, next) =>
         || p.EndsWith(".html", StringComparison.OrdinalIgnoreCase))
     {
         var file = Path.GetFullPath(Path.Combine(uiRoot, p.TrimStart('/')));
-        // Compare against uiRoot + separator, not the bare prefix: a sibling dir like "wwwrootX" would
+        // §2.6 — compare against uiRoot + separator, not the bare prefix: a sibling dir like "wwwrootX" would
         // otherwise pass the StartsWith(uiRoot) check and escape the intended root.
         if (file.StartsWith(uiRoot + Path.DirectorySeparatorChar, StringComparison.Ordinal) && File.Exists(file))
         {
@@ -88,15 +89,20 @@ app.Use(async (ctx, next) =>
 app.Logger.LogInformation("UI dashboard root={Root} files={N}", uiRoot,
     Directory.Exists(uiRoot) ? Directory.GetFiles(uiRoot, "*", SearchOption.AllDirectories).Length : -1);
 
-// Request capture: logs every client request (method, path, query, headers, body) to a JSONL transcript.
-// Several backend endpoints (e.g. the attack result/replay submission) are engine-native and not visible in
-// the client's JS, so the transcript is the reference for their wire shape.
+// ─────────────────────────────────────────────────────────────────────────────────────────────────
+// STEP 1 — capture rig.
+// Log EVERY request the real client makes (method, path, query, headers, body) to a JSONL transcript,
+// so we learn the exact launch → login → lobby traffic. That captured ground truth is what we build the
+// real endpoints against (several of them — e.g. the attack result/replay submission — are engine-native
+// and NOT visible in the client's JS). See ../../FINDINGS.md.
+// ─────────────────────────────────────────────────────────────────────────────────────────────────
 var captureDir = app.Configuration["Capture:Directory"] ?? "captures";
 Directory.CreateDirectory(captureDir);
 var captureFile = Path.Combine(captureDir, "requests.jsonl");
 var captureLock = new object();
-// Append-only audit substrate: the raw EndAttack body (JSON + binary replay blob) is written here
-// verbatim, one file per attack, before scoring, so a result can be re-verified retroactively (AuditBundle.cs).
+// §5.1 — append-only audit substrate: the RAW EndAttack body (JSON + binary replay blob) is written here
+// verbatim, one file per attack, BEFORE scoring. Deferring the re-sim compute is fine; dropping the bytes is
+// the one non-deferrable shortcut (AuditBundle.cs) — you could never verify retroactively.
 var auditDir = app.Configuration["Audit:Directory"] ?? Path.Combine(captureDir, "audit");
 Directory.CreateDirectory(auditDir);
 
@@ -126,36 +132,13 @@ app.Use(async (ctx, next) =>
     app.Logger.LogInformation("REQ {Method} {Path}{Query} ({Len} body bytes)",
         ctx.Request.Method, ctx.Request.Path, ctx.Request.QueryString, body.Length);
 
-    // Response capture: buffers and logs the response body for StartAttack/EndAttack/GetAccountInformation
-    // to responses.jsonl alongside the request.
-    var p = ctx.Request.Path.Value ?? "";
-    bool captureResp = p.Contains("StartAttack", StringComparison.OrdinalIgnoreCase)
-                    || p.Contains("EndAttack", StringComparison.OrdinalIgnoreCase)
-                    || p.Contains("GetAccountInformation", StringComparison.OrdinalIgnoreCase);
-    if (captureResp)
-    {
-        var original = ctx.Response.Body;
-        using var buffer = new MemoryStream();
-        ctx.Response.Body = buffer;
-        await next();
-        buffer.Position = 0;
-        var respText = await new StreamReader(buffer).ReadToEndAsync();
-        buffer.Position = 0;
-        await buffer.CopyToAsync(original);
-        ctx.Response.Body = original;
-        var rf = Path.Combine(captureDir, "responses.jsonl");
-        var rrec = JsonSerializer.Serialize(new { ts = DateTimeOffset.UtcNow, path = p, query = ctx.Request.QueryString.Value, reqBody = body, respBody = respText });
-        lock (captureLock) File.AppendAllText(rf, rrec + Environment.NewLine);
-        return;
-    }
-
     await next();
 });
 
-app.MapGet("/__capture", () => $"MQEL capture host — requests -> {captureFile}");   // (/ serves the admin dashboard)
+app.MapGet("/__capture", () => $"MQEL capture host — requests -> {captureFile}");   // (/ now serves the admin dashboard)
 
-// Smoke test for IAccountRepository — round-trips a full account graph (account+wallet+hero+gear+spell)
-// through EF and returns the reloaded state as JSON.
+// Smoke test for the IAccountRepository black box — round-trips a full account GRAPH (account+wallet+hero+
+// gear+spell) through EF. (The per-account handler refactor is next; today's handlers still use gameState.)
 app.MapGet("/__dbtest", async (IAccountRepository repo) =>
 {
     const long testId = 999;
@@ -194,8 +177,8 @@ app.MapGet("/__dbtest", async (IAccountRepository repo) =>
 // so an overlapping load->mutate->save can't clobber; different accounts run fully in parallel. The transient
 // combat scratch is cached per account (it must survive the StartAttack->EndAttack request pair).
 var resolver = app.Services.GetRequiredService<IAccountResolver>();
-// Force-resolve the DI-singleton catalogs at startup (eager load + count logs); they're passed to the endpoint
-// deps records below. Shop SKUs/item templates resolve BuyHeroItemCommand; missions drive MissionManager.
+// Force-resolve the DI-singleton catalogs at startup (eager load + count logs); both are passed to the
+// endpoint deps records below. Shop SKUs/item templates resolve BuyHeroItemCommand; missions drive MissionManager.
 var itemCatalog = app.Services.GetRequiredService<ItemCatalog>();
 app.Logger.LogInformation("ItemCatalog: {Skus} SKUs, {Tpls} item templates loaded", itemCatalog.SkuCount, itemCatalog.TemplateCount);
 var missionCatalog = app.Services.GetRequiredService<MissionCatalog>();
@@ -219,8 +202,8 @@ static Account NewFirstRun(long id) => new()
     },
 };
 // Launcher boot endpoints + diagnostics act on no account; everything else is an account-bearing call.
-// Blocklist, not allowlist — unknown paths default to account-bearing (the catch-all falls through safely if
-// state is absent).
+// (Blocklist, not allowlist — the game RPC surface is still being discovered, so unknown paths default to
+// account-bearing. The cast in the catch-all now falls through safely if state is somehow absent — §2.1.)
 static bool IsAccountRequest(string path) =>
     path.Length > 1 &&
     !path.StartsWith("/api/", StringComparison.OrdinalIgnoreCase) &&
@@ -228,7 +211,7 @@ static bool IsAccountRequest(string path) =>
     !path.Contains("GetRMLauncher", StringComparison.OrdinalIgnoreCase) &&
     !path.Contains("/launcher/", StringComparison.OrdinalIgnoreCase) &&
     !path.Contains("__dbtest", StringComparison.OrdinalIgnoreCase) &&
-    // Keep stray static/telemetry-adjacent hits (favicon, images) off the account gate: they'd
+    // §2.1/§2.5 — keep stray static/telemetry-adjacent hits (favicon, images) off the account gate: they'd
     // otherwise take the semaphore and load the whole account graph just to fall through to a stub 200.
     !path.EndsWith(".ico", StringComparison.OrdinalIgnoreCase) &&
     !path.EndsWith(".png", StringComparison.OrdinalIgnoreCase) &&
@@ -255,12 +238,12 @@ app.Use(async (ctx, next) =>
     }
     finally { gate.Release(); }
 });
-// Serialize generated bodies with literal & < > (not \uXXXX): the game's old Argo (Chromium-27-era) parser
-// chokes on System.Text.Json's default \uXXXX escapes and fails the boot network handshake.
+// Serialize generated bodies with LITERAL & + < > (not \uXXXX). The reference JSON uses literal chars and the
+// game's old Argo (Chromium-27-era) parser chokes on System.Text.Json's default \uXXXX escapes → boot network error.
 var jsonOpts = new JsonSerializerOptions { Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
-// Wire trace — single channel. Path from config, defaulting under the capture dir (no hardcoded
-// drive letter, so it works off-box / in Docker); appends serialized under a lock so concurrent request
-// threads can't interleave or throw. /api/logs reads this same file.
+// Wire trace — ONE channel (§1.8/§2.4). Path from config, defaulting under the capture dir: no hardcoded
+// drive letter (the old d:\ path broke every off-box / Docker run), appends serialized under a lock so
+// concurrent request threads can't interleave or throw. /api/logs reads this same file.
 var traceFile = app.Configuration["Trace:File"] ?? Path.Combine(captureDir, "wire-trace.log");
 var traceLock = new object();
 void WireLog(string msg)
@@ -282,13 +265,14 @@ app.MapAdminApi(new AdminDeps(adminToken, GateFor, NewFirstRun, attackScratch, i
 // Shared services the game .hqs handlers need (passed to GameEndpoints rather than captured).
 var gameDeps = new GameDeps(jsonOpts, RespFile, WireLog, itemCatalog, missionCatalog, missionProgress, auditDir, app.Logger, assignmentCatalog, castleRenovationCatalog);
 
-// Dispatcher. Answers the launcher's boot-gate endpoints, routes account-bearing game RPC to GameEndpoints,
-// and 200s anything unmatched. The backend speaks ".hqs" RPC services with .NET-contract ($type) JSON.
+// Dispatcher. The capture middleware above already logged the request. We answer the launcher's boot-gate
+// endpoints just enough to advance, and 200 everything else so the client keeps revealing the flow.
+// The backend speaks ".hqs" RPC services with .NET-contract ($type) JSON; see ../../code-analysis/.
 app.Map("/{**catchAll}", async (HttpContext ctx) =>
 {
     var path = ctx.Request.Path.Value ?? "";
-    // Trace the client->server protocol to the wire log (skip telemetry spam). For SendCommands/StartAttack/
-    // EndAttack, also log the request body — the client-authoritative command batch.
+    // DIAGNOSTIC: trace the full client->server protocol (skip telemetry spam). For SendCommands, capture the command
+    // batch body — that's the client-authoritative channel where a level-up / account-refresh trigger would live.
     try {
         if (!path.Contains("Tracking", StringComparison.OrdinalIgnoreCase) && !path.Contains("ClientIdle", StringComparison.OrdinalIgnoreCase) && !path.Contains("__state", StringComparison.OrdinalIgnoreCase)) {
             string _b = "";
@@ -304,7 +288,7 @@ app.Map("/{**catchAll}", async (HttpContext ctx) =>
 
     // ── Account-bearing gameserver call: the per-account middleware has loaded the working state (creating a
     //    first-run account on first contact) into ctx.Items, and will save + unlock it after this returns.
-    // If there is no account on the request (a non-account path, or a future endpoint the predicate
+    // §2.1 — if there is NO account on the request (a non-account path, or a future endpoint the predicate
     // doesn't classify as account-bearing), fall through to the static dispatcher instead of NRE-ing the cast.
     if (ctx.Items["account"] is not AccountState gameState)
         return await DispatchStatic();
@@ -319,9 +303,9 @@ app.Map("/{**catchAll}", async (HttpContext ctx) =>
     // static .hqs responses and the STUB-200 discovery fallback — neither touches account state.
     async Task<IResult> DispatchStatic()
     {
-        // File-backed static service responses: responses/<Service>.hqs/<Method>.json — drop a JSON file to add a
-        // service, no code change (hot-loaded per request). Covers CastleForSale (GetCastlesForSale/
-        // GetCastleForSaleBuildInfo), AttackSelection, SeasonalCompetition, AccountService, …
+        // FILE-BACKED static service responses: responses/<Service>.hqs/<Method>.json — drop a JSON file to add a
+        // service, no code change (hot-loaded per request). Mined from the MQELOffline_cpp reference: CastleForSale
+        // (GetCastlesForSale/GetCastleForSaleBuildInfo), AttackSelection, SeasonalCompetition, AccountService, …
         var segs = (path ?? "").Trim('/').Split('/');
         if (segs.Length >= 2 && segs[^2].EndsWith(".hqs", StringComparison.OrdinalIgnoreCase)
             && !segs[^1].Contains('.'))
@@ -332,8 +316,9 @@ app.Map("/{**catchAll}", async (HttpContext ctx) =>
             if (File.Exists(ff)) return Results.Content(await File.ReadAllTextAsync(ff), "application/json");
         }
 
-        // Nothing matched: return an empty 200 so the client keeps running, and log the path so the set of
-        // unimplemented endpoints hit this session is a reviewable list. Skip the noisy telemetry pings.
+        // §2.3 — nothing matched: deliberately 200 empty to keep the client revealing flow, but log it so the set of
+        // "endpoints we silently 200'd this session" is a reviewable list (the unimplemented-surface inventory) instead
+        // of archaeology. Skip the known-noisy telemetry pings so the list stays signal.
         if (!string.IsNullOrEmpty(path)
             && !path.Contains("Tracking", StringComparison.OrdinalIgnoreCase) && !path.Contains("ClientIdle", StringComparison.OrdinalIgnoreCase)
             && !path.Contains("KeepAlive", StringComparison.OrdinalIgnoreCase) && !path.Contains("__state", StringComparison.OrdinalIgnoreCase))

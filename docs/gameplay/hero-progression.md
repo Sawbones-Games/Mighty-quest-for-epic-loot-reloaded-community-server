@@ -12,7 +12,7 @@ subtle skill-unlock gate that took the longest to crack.
 
 | Type / file | Role |
 |-------------|------|
-| `HeroState.AddXp` / `.LevelForXp` / `XpPerLevel` | accrue XP, re-derive level from the curve |
+| [`HeroState.AddXp` / `.LevelForXp` / `XpPerLevel`](../../MQELServer/src/MQEL.Gameserver/Account.cs) | accrue XP, re-derive level from the curve |
 | [`Program.cs` EndAttack](../../MQELServer/src/MQEL.Gameserver/Program.cs) | accrues XP, emits the type-43 `HeroXpChanged` with `LevelChanged` |
 | [`Program.cs` SendCommands `HeroEquipSpellCommand`](../../MQELServer/src/MQEL.Gameserver/Program.cs) | equips the unlocked skill to an action-bar slot |
 
@@ -29,7 +29,7 @@ subtle skill-unlock gate that took the longest to crack.
   move (that bumps a different, *combat* hero — proven live: combat=2, registry=1). The fix: the type-43 must
   carry **`LevelChanged:true`** when a threshold is crossed; that flag drives a dynamic subscriber to write the
   **registry** hero level → the skill ungates. Earned, not granted. Full trace:
-  in-session-state-sync.md.
+  [in-session-state-sync.md](../../code-analysis/decompiled/account/in-session-state-sync.md).
 - **Equipping the skill:** the client sends `HeroEquipSpellCommand {SpellId, SlotIndex}`; we move it into the
   hero's equipped spells.
 
@@ -43,6 +43,6 @@ Hero level, XP, gear and equipped spells persist on the `Heroes` aggregate ([per
 
 ## Related
 - [combat-rewards.md](combat-rewards.md) — where XP is awarded · [notifications.md](notifications.md) — type-43
-- in-session-state-sync.md — the registry-level gate (native)
+- [in-session-state-sync.md](../../code-analysis/decompiled/account/in-session-state-sync.md) — the registry-level gate (native)
 - [progression-loop.md](progression-loop.md) — the loop overview · memory `project-skilltree-grey-clientside`
 </content>
