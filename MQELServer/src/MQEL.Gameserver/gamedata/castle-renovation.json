@@ -1,0 +1,74 @@
+{
+ "Costs": {
+  "RenovationComplete": [
+   {
+    "Quantity": 2,
+    "TemplateId": 1004
+   },
+   {
+    "Quantity": 2,
+    "TemplateId": 1008
+   },
+   {
+    "Quantity": 2,
+    "TemplateId": 1002
+   },
+   {
+    "Quantity": 2,
+    "TemplateId": 1009
+   },
+   {
+    "Quantity": 1,
+    "TemplateId": 1018
+   },
+   {
+    "Quantity": 1,
+    "TemplateId": 1019
+   }
+  ],
+  "RenovationLevel1": [],
+  "RenovationLevel2": [
+   {
+    "Quantity": 3,
+    "TemplateId": 1002
+   },
+   {
+    "Quantity": 2,
+    "TemplateId": 1004
+   }
+  ],
+  "RenovationLevel3": [
+   {
+    "Quantity": 4,
+    "TemplateId": 1003
+   },
+   {
+    "Quantity": 4,
+    "TemplateId": 1001
+   },
+   {
+    "Quantity": 2,
+    "TemplateId": 1000
+   }
+  ],
+  "RenovationLevel4": [
+   {
+    "Quantity": 3,
+    "TemplateId": 1003
+   },
+   {
+    "Quantity": 3,
+    "TemplateId": 1001
+   },
+   {
+    "Quantity": 2,
+    "TemplateId": 1010
+   },
+   {
+    "Quantity": 2,
+    "TemplateId": 1009
+   }
+  ]
+ },
+ "FormatVersion": 1
+}

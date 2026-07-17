@@ -1,8 +1,8 @@
 using System.Text.Json.Nodes;
 
-// Loads the decrypted game-design spec (authoritative source — no hardcoded item ids). Two lookups:
-//   SkuCode  -> { ItemId, Price }            from ShopSettings/SHOPSKUBASESETTINGS.JSON  ("Skus":[...])
-//   ItemId   -> { ArchetypeId, Type, Level } from HeroItems/HEROITEMTEMPLATES.JSON       ("TemplateList":[...])
+// Loads the packed game-design data (gamedata/items.json — see GameData; no hardcoded item ids). Two lookups:
+//   SkuCode  -> { ItemId, Price }             ("Skus")
+//   ItemId   -> { ArchetypeId, Type, Level }  ("Templates")
 // Used to turn a BuyHeroItemCommand's SkuCode into a concrete equippable item the hero can carry/equip.
 sealed class ItemCatalog
 {
@@ -15,22 +15,23 @@ sealed class ItemCatalog
     public int SkuCount => _skus.Count;
     public int TemplateCount => _templates.Count;
 
-    public static ItemCatalog Load(string specRoot)
+    static int I(JsonNode? n, int dflt = 0) => n is null ? dflt : (int?)n ?? dflt;
+
+    public static ItemCatalog Load(string dataDir)
     {
         var c = new ItemCatalog();
+        var root = GameData.Load(dataDir, "items.json");
 
-        var skuDoc = JsonNode.Parse(File.ReadAllText(Path.Combine(specRoot, "GameplaySettings", "ShopSettings", "SHOPSKUBASESETTINGS.JSON")))!;
-        foreach (var s in skuDoc["Skus"]!.AsArray())
+        foreach (var kv in root["Skus"]?.AsObject() ?? new JsonObject())
         {
-            if (s is null || (string?)s["Code"] is not { } code) continue;
-            c._skus[code] = new SkuInfo((int?)s["ItemId"] ?? 0, (int?)s["Price"]?["CurrencyType"] ?? 0, (int?)s["Price"]?["Amount"] ?? 0);
+            if (kv.Value is not JsonObject s) continue;
+            c._skus[kv.Key] = new SkuInfo(I(s["ItemId"]), I(s["PriceCurrency"]), I(s["PriceAmount"]));
         }
 
-        var tplDoc = JsonNode.Parse(File.ReadAllText(Path.Combine(specRoot, "GameplaySettings", "HeroItems", "HEROITEMTEMPLATES.JSON")))!;
-        foreach (var t in tplDoc["TemplateList"]!.AsArray())
+        foreach (var kv in root["Templates"]?.AsObject() ?? new JsonObject())
         {
-            if (t is null || (int?)t["Id"] is not { } id) continue;
-            c._templates[id] = new TemplateInfo((int?)t["ArchetypeId"] ?? 0, (int?)t["HeroItemTypeId"] ?? 0, (int?)t["LevelMin"] ?? 1);
+            if (kv.Value is not JsonObject t || !int.TryParse(kv.Key, out var id)) continue;
+            c._templates[id] = new TemplateInfo(I(t["ArchetypeId"]), I(t["HeroItemTypeId"]), I(t["ItemLevel"], 1));
         }
         return c;
     }
@@ -50,16 +51,5 @@ sealed class ItemCatalog
             ["TemplateId"] = templateId,
             ["DyeTemplateId"] = 0,
         };
-    }
-
-    // Walk up from the working dir to locate game-data/settings-extracted (robust to where the exe is launched).
-    public static string? FindSpecRoot()
-    {
-        for (var dir = new DirectoryInfo(Directory.GetCurrentDirectory()); dir != null; dir = dir.Parent)
-        {
-            var candidate = Path.Combine(dir.FullName, "game-data", "settings-extracted");
-            if (Directory.Exists(candidate)) return candidate;
-        }
-        return null;
     }
 }

@@ -18,32 +18,18 @@ builder.Services.AddSingleton<IVerificationService, StubVerificationService>();
 var storageOptions = builder.Configuration.GetSection(StorageOptions.SectionName).Get<StorageOptions>() ?? new StorageOptions();
 builder.Services.AddDataLayer(storageOptions);
 
-// Game-design catalogs from the decrypted spec DB — immutable after load, so DI singletons. Registered as
-// factories (fallback to empty on load failure) and force-resolved at startup for eager load + the count logs.
-builder.Services.AddSingleton(sp =>
-{
-    var log = sp.GetRequiredService<ILogger<Program>>();
-    try { return ItemCatalog.FindSpecRoot() is { } r ? ItemCatalog.Load(r) : new ItemCatalog(); }
-    catch (Exception ex) { log.LogWarning(ex, "ItemCatalog load failed — store buys won't resolve"); return new ItemCatalog(); }
-});
-builder.Services.AddSingleton(sp =>
-{
-    var log = sp.GetRequiredService<ILogger<Program>>();
-    try { return MissionCatalog.FindSpecRoot() is { } r ? MissionCatalog.Load(r) : new MissionCatalog(); }
-    catch (Exception ex) { log.LogWarning(ex, "MissionCatalog load failed — objective rewards won't fire"); return new MissionCatalog(); }
-});
-builder.Services.AddSingleton(sp =>
-{
-    var log = sp.GetRequiredService<ILogger<Program>>();
-    try { return AssignmentCatalog.FindSpecRoot() is { } r ? AssignmentCatalog.Load(r) : new AssignmentCatalog(); }
-    catch (Exception ex) { log.LogWarning(ex, "AssignmentCatalog load failed — ExecuteAssignmentActionCommand won't resolve"); return new AssignmentCatalog(); }
-});
-builder.Services.AddSingleton(sp =>
-{
-    var log = sp.GetRequiredService<ILogger<Program>>();
-    try { return CastleRenovationCatalog.FindSpecRoot() is { } r ? CastleRenovationCatalog.Load(r) : new CastleRenovationCatalog(); }
-    catch (Exception ex) { log.LogWarning(ex, "CastleRenovationCatalog load failed — renovation costs won't resolve"); return new CastleRenovationCatalog(); }
-});
+// Game-design catalogs from the server's packed game data (gamedata/*.json, built by tools/pack_gamedata.py) —
+// immutable after load, so DI singletons, force-resolved at startup for eager load + the count logs.
+//
+// These deliberately do NOT fall back to an empty catalog. The pack is committed and copied next to the exe, so
+// a missing or unreadable pack means a broken build, not a normal state; GameData throws a GameDataException
+// naming the file and the fix, and startup dies with it. A server that cannot score an objective or price an
+// item is not degraded, it is broken.
+var gameDataDir = GameData.FindDir();
+builder.Services.AddSingleton(sp => ItemCatalog.Load(gameDataDir));
+builder.Services.AddSingleton(sp => MissionCatalog.Load(gameDataDir));
+builder.Services.AddSingleton(sp => AssignmentCatalog.Load(gameDataDir));
+builder.Services.AddSingleton(sp => CastleRenovationCatalog.Load(gameDataDir));
 
 var app = builder.Build();
 
@@ -177,14 +163,18 @@ app.MapGet("/__dbtest", async (IAccountRepository repo) =>
 // so an overlapping load->mutate->save can't clobber; different accounts run fully in parallel. The transient
 // combat scratch is cached per account (it must survive the StartAttack->EndAttack request pair).
 var resolver = app.Services.GetRequiredService<IAccountResolver>();
-// Force-resolve the DI-singleton catalogs at startup (eager load + count logs); both are passed to the
-// endpoint deps records below. Shop SKUs/item templates resolve BuyHeroItemCommand; missions drive MissionManager.
+// Force-resolve the DI-singleton catalogs at startup (eager load + count logs); all are passed to the endpoint
+// deps records below. Shop SKUs/item templates resolve BuyHeroItemCommand; missions drive MissionManager.
+// Every count is logged: "0 of anything" is the signature of a bad pack, so it must be visible at a glance.
+app.Logger.LogInformation("GameData: pack v{Version} at {Dir}", GameData.FormatVersion, gameDataDir);
 var itemCatalog = app.Services.GetRequiredService<ItemCatalog>();
 app.Logger.LogInformation("ItemCatalog: {Skus} SKUs, {Tpls} item templates loaded", itemCatalog.SkuCount, itemCatalog.TemplateCount);
 var missionCatalog = app.Services.GetRequiredService<MissionCatalog>();
 app.Logger.LogInformation("MissionCatalog: {Count} missions loaded", missionCatalog.Count);
 var assignmentCatalog = app.Services.GetRequiredService<AssignmentCatalog>();
+app.Logger.LogInformation("AssignmentCatalog: {Count} assignments loaded", assignmentCatalog.Count);
 var castleRenovationCatalog = app.Services.GetRequiredService<CastleRenovationCatalog>();
+app.Logger.LogInformation("CastleRenovationCatalog: {Count} renovation levels loaded", castleRenovationCatalog.Count);
 var accountLocks = new System.Collections.Concurrent.ConcurrentDictionary<long, SemaphoreSlim>();
 var attackScratch = new System.Collections.Concurrent.ConcurrentDictionary<long, AttackScratch>();
 // Per-account in-memory mission progress (objectiveId -> per-condition counters). Lets a mission span multiple

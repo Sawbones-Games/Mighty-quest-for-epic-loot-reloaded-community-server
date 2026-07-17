@@ -17,4 +17,17 @@
     <InternalsVisibleTo Include="MQEL.Tests" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!--
+      Ship the runtime data next to the exe. Both are already Content via the Web SDK's default globs, so these
+      are Update (not Include) — Include would duplicate them and fail the build.
+        gamedata/  = the packed game-design data (tools/pack_gamedata.py output) the catalogs read.
+        responses/ = the file-backed .hqs bodies + castle specs.
+      Without this, both resolved only via Directory.GetCurrentDirectory() — fine from the project dir, silent
+      failure from anywhere else.
+    -->
+    <Content Update="gamedata\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Update="responses\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

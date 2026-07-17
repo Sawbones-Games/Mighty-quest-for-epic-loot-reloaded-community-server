@@ -1,0 +1,1249 @@
+{
+ "FormatVersion": 1,
+ "Missions": [
+  {
+   "CastleId": 14,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 1,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 1060
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 5,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 200,
+     "CurrencyType": "PremiumCash",
+     "Kind": "Currency"
+    },
+    {
+     "Kind": "Xp",
+     "Xp": 250
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 17,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 1,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 1061
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 99,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 50,
+     "CurrencyType": "PremiumCash",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 1000,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 1000,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    },
+    {
+     "Kind": "Xp",
+     "Xp": 10000
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 15,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 1,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 1077
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 100,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 50,
+     "CurrencyType": "PremiumCash",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 500,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 500,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    },
+    {
+     "Kind": "Xp",
+     "Xp": 1000
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 16,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 1,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 429
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 101,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 50,
+     "CurrencyType": "PremiumCash",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 750,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 750,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    },
+    {
+     "Kind": "Xp",
+     "Xp": 3500
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 19,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 1,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 430
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 102,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 50,
+     "CurrencyType": "PremiumCash",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 2000,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 2000,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    },
+    {
+     "Kind": "Xp",
+     "Xp": 100000
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 18,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 1,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 431
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 103,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 50,
+     "CurrencyType": "PremiumCash",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 1500,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 1500,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    },
+    {
+     "Kind": "Xp",
+     "Xp": 30000
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 20,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 1,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 432
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 104,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 50,
+     "CurrencyType": "PremiumCash",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 5000,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 5000,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 1,
+     "Kind": "BuildingRank",
+     "Rank": 1,
+     "SpecContainerId": 5
+    }
+   ],
+   "Id": 111,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 250,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 1,
+     "Kind": "BuildingRank",
+     "Rank": 2,
+     "SpecContainerId": 1
+    }
+   ],
+   "Id": 121,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 1000,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": 4,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [],
+   "Id": 122,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "ItemArchetypeId": 2,
+     "ItemLevel": 1,
+     "ItemTemplateId": 21101,
+     "Kind": "Item"
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 3,
+     "ItemType": "Decoration",
+     "Kind": "Built"
+    }
+   ],
+   "Id": 123,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 500,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 3,
+     "ItemType": "Room",
+     "Kind": "Built"
+    },
+    {
+     "Kind": "CastleValid"
+    }
+   ],
+   "Id": 124,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 250,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [],
+   "Id": 125,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 500,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 500,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "ClientObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [],
+   "Id": 126,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 500,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "ClientObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 45,
+     "Kind": "CPBuilt"
+    }
+   ],
+   "Id": 127,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 200,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 1,
+     "Kind": "BuildingRank",
+     "Rank": 1,
+     "SpecContainerId": 8
+    }
+   ],
+   "Id": 128,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 100,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 10,
+     "Kind": "CPBuilt"
+    }
+   ],
+   "Id": 200,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 100,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 750,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 1,
+     "Kind": "CPBuilt"
+    }
+   ],
+   "Id": 201,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 2,
+     "Kind": "CPBuilt"
+    }
+   ],
+   "Id": 202,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 3,
+     "Kind": "CPBuilt"
+    }
+   ],
+   "Id": 203,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 4,
+     "Kind": "CPBuilt"
+    }
+   ],
+   "Id": 204,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 5,
+     "Kind": "CPBuilt"
+    }
+   ],
+   "Id": 205,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 1,
+     "Kind": "BuildingRank",
+     "Rank": 1,
+     "SpecContainerId": 9
+    }
+   ],
+   "Id": 222,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 100,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": true,
+   "Conditions": [
+    {
+     "Count": 1,
+     "Kind": "BuildingRank",
+     "Rank": 1,
+     "SpecContainerId": 10
+    }
+   ],
+   "Id": 223,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 100,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "BuildObjective"
+  },
+  {
+   "CastleId": 100,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 20,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 1081
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 300,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1002,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1002,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1002,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1004,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1004,
+       "Quantity": 1
+      }
+     ]
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [
+    "User"
+   ],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 301,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [
+    300
+   ],
+   "Rewards": [
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1003,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1003,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1001,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1001,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1000,
+       "Quantity": 1
+      }
+     ]
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 101,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 1,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 1087
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 302,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [
+    301
+   ],
+   "Rewards": [
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1003,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1003,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1001,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1001,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1000,
+       "Quantity": 1
+      }
+     ]
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 102,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 1,
+     "ItemType": "Decoration",
+     "Kind": "Destroyed",
+     "SpecContainerId": 226
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 303,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [
+    302
+   ],
+   "Rewards": [
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1003,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1003,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1003,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1009,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1009,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "ItemArchetypeId": 0,
+     "ItemLevel": 1,
+     "ItemTemplateId": 84349,
+     "Kind": "Item"
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 103,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 6,
+     "ItemType": "Building",
+     "Kind": "Destroyed",
+     "SpecContainerId": 5
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 304,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [
+    303
+   ],
+   "Rewards": [
+    {
+     "Amount": 50,
+     "CurrencyType": "PremiumCash",
+     "Kind": "Currency"
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1001,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1001,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1001,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1010,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1010,
+       "Quantity": 1
+      }
+     ]
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 104,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 4,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 1023
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 305,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [
+    304
+   ],
+   "Rewards": [
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1004,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1004,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1008,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1008,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1018,
+       "Quantity": 1
+      }
+     ]
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": 14,
+   "CastleType": "Ubisoft",
+   "CastleTypes": [],
+   "Category": "Attack",
+   "ClientSideCompletion": false,
+   "Conditions": [
+    {
+     "Kind": "CastleEntered"
+    },
+    {
+     "Count": 1,
+     "ItemType": "Creature",
+     "Kind": "Destroyed",
+     "SpecContainerId": 1060
+    },
+    {
+     "Kind": "CastleCompleted"
+    }
+   ],
+   "Id": 306,
+   "ManualPopupOnCompletion": false,
+   "RequiresObjectiveIds": [
+    305
+   ],
+   "Rewards": [
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1002,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1002,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1009,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1009,
+       "Quantity": 1
+      }
+     ]
+    },
+    {
+     "Kind": "Materials",
+     "Materials": [
+      {
+       "Id": 1019,
+       "Quantity": 1
+      }
+     ]
+    }
+   ],
+   "Type": "DefeatCastleObjective"
+  },
+  {
+   "CastleId": null,
+   "CastleType": null,
+   "CastleTypes": [],
+   "Category": "Build",
+   "ClientSideCompletion": false,
+   "Conditions": [],
+   "Id": 307,
+   "ManualPopupOnCompletion": true,
+   "RequiresObjectiveIds": [],
+   "Rewards": [
+    {
+     "Amount": 2000,
+     "CurrencyType": "IGC",
+     "Kind": "Currency"
+    },
+    {
+     "Amount": 2000,
+     "CurrencyType": "LifeForce",
+     "Kind": "Currency"
+    }
+   ],
+   "Type": "ClientObjective"
+  }
+ ]
+}

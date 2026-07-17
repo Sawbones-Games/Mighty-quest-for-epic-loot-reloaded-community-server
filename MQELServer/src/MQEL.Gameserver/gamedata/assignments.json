@@ -1,0 +1,3644 @@
+{
+ "Assignments": {
+  "10": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "PlayMovieAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000010 - Intro movie"
+  },
+  "100": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "OpenPanelAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000100 - Equip an item"
+  },
+  "1000": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroLevelUpNotificationAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "CompleteObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAfterAttackNavigationAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroLevelUpNotificationAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LoadingScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "PlaySoundEventAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "PlayMusicOverrideAssignmentActionSpec"
+    },
+    {
+     "Type": "PlayAmbienceSoundOverrideAssignmentActionSpec"
+    },
+    {
+     "Type": "PlaySoundEventAssignmentActionSpec"
+    },
+    {
+     "Type": "LoadingScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "StopAmbienceSoundOverrideAssignmentActionSpec"
+    },
+    {
+     "Type": "PlaySoundEventAssignmentActionSpec"
+    },
+    {
+     "Type": "StopMusicOverrideAssignmentActionSpec"
+    }
+   ],
+   "Name": "001000 - First region boss challenges you"
+  },
+  "1001": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "001001 - First region boss challenges you - part 2"
+  },
+  "1005": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "001005 - Equip your hero with gear before attacking first region boss"
+  },
+  "1010": {
+   "Actions": [
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "StopAmbienceSoundOverrideAssignmentActionSpec"
+    },
+    {
+     "Type": "StopMusicOverrideAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockAttackRegionAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "OpenPanelAssignmentActionSpec"
+    }
+   ],
+   "Name": "001010 - Unlock competition"
+  },
+  "120": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LaunchAttackAssignmentActionSpec"
+    },
+    {
+     "Type": "OverrideCameraOcclusionFlagsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAfterAttackNavigationAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroLevelUpNotificationAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000120 - First tutorial castle"
+  },
+  "125": {
+   "Actions": [
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000125 - Equip a skill 2"
+  },
+  "130": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000130 - Adding first room"
+  },
+  "140": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "OverrideCameraOcclusionFlagsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ClearBuildPickedEntityAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000140 - Adding a trap"
+  },
+  "145": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "OverrideCameraOcclusionFlagsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "ClearBuildPickedEntityAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ClearBuildPickedEntityAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000145 - Adding a trap generator"
+  },
+  "150": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroLevelUpNotificationAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "HideAttackSelectionCastlesAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAfterAttackNavigationAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000150 - Second tutorial castle"
+  },
+  "155": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "HideAttackSelectionCastlesAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "OverrideCameraOcclusionFlagsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroLevelUpNotificationAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroLevelUpNotificationAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "HideAttackSelectionCastlesAssignmentActionSpec"
+    }
+   ],
+   "Name": "000155 - Acquire resources"
+  },
+  "160": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClearBuildSelectedEntityAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000160 - Reach max cp"
+  },
+  "170": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    }
+   ],
+   "Name": "000170 - Validating castle"
+  },
+  "180": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    }
+   ],
+   "Name": "000180 - PvP introduction"
+  },
+  "190": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "AddItemsToInventoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000190 - Gear up"
+  },
+  "20": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "PlayMusicOverrideAssignmentActionSpec"
+    },
+    {
+     "Type": "PlayAmbienceSoundOverrideAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "StopMusicOverrideAssignmentActionSpec"
+    },
+    {
+     "Type": "StopAmbienceSoundOverrideAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    }
+   ],
+   "Name": "000020 - Starter castle selection"
+  },
+  "2000": {
+   "Actions": [
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "002000 - Gear crafting tutorial"
+  },
+  "21": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    }
+   ],
+   "Name": "000021 - Castle tour inputs"
+  },
+  "23": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    }
+   ],
+   "Name": "000023 - Castle tour narrative1"
+  },
+  "24": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    }
+   ],
+   "Name": "000024 - Castle tour narrative2"
+  },
+  "25": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    }
+   ],
+   "Name": "000025 - Castle tour narrative3"
+  },
+  "26": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    }
+   ],
+   "Name": "000026 - Castle tour narrative - TooExpensive"
+  },
+  "30": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PlaySoundEventAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "OpenPanelAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000030 - Choose name"
+  },
+  "3000": {
+   "Actions": [
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "OverrideCameraOcclusionFlagsAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "CompleteObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "OverrideCameraOcclusionFlagsAssignmentActionSpec"
+    }
+   ],
+   "Name": "003000 - Potion brewery tutorial"
+  },
+  "40": {
+   "Actions": [
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "LoadingScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "CompleteObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "LoadingScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "LoadingScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "LoadingScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000040 - Castle presentation"
+  },
+  "4000": {
+   "Actions": [
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "AddItemsToInventoryAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "OverrideCameraOcclusionFlagsAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "OverrideCameraOcclusionFlagsAssignmentActionSpec"
+    }
+   ],
+   "Name": "004000 - Creature crafting tutorial"
+  },
+  "50": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClearBuildSelectedEntityAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000050 - Install gold mine"
+  },
+  "5000": {
+   "Actions": [
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    }
+   ],
+   "Name": "005000 - Build entity can not be placed"
+  },
+  "5002": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "OverrideCameraOcclusionFlagsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionInputEnabledAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroLevelUpNotificationAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "HideAttackSelectionCastlesAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAfterAttackNavigationAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "005002 - Third_Tutorial_Castle"
+  },
+  "5003": {
+   "Actions": [
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "CastleRenovationLevel": "RenovationLevel1",
+     "Type": "SetCastleRenovationLevelAssignmentActionSpec"
+    },
+    {
+     "Type": "ActivateDeactivatePickingAssignmentActionSpec"
+    },
+    {
+     "Type": "ActivateDeactivatePickingAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ActivateDeactivatePickingAssignmentActionSpec"
+    },
+    {
+     "Type": "ActivateDeactivatePickingAssignmentActionSpec"
+    }
+   ],
+   "Name": "005003 - Castle_Crafting_TEMP"
+  },
+  "5004": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "OverrideCameraOcclusionFlagsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "OpenPanelAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "005004 - Equip_Looted_Items"
+  },
+  "5005": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    }
+   ],
+   "Name": "005005 - Castle_Crafting_First_Quest"
+  },
+  "5006": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "PanAttackSelectionCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "GrantPrivilegesAssignmentActionSpec"
+    },
+    {
+     "Type": "GrantPrivilegesAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    }
+   ],
+   "Name": "005006 - 5006_Castle_Crafting_Q3"
+  },
+  "5007": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "CastleRenovationLevel": "RenovationLevel2",
+     "Type": "SetCastleRenovationLevelAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    }
+   ],
+   "Name": "005007 - Castle_Crafting_1st_Floor_Complete"
+  },
+  "5008": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    }
+   ],
+   "Name": "005008 - CASTLE_CRAFTING_Q4"
+  },
+  "5009": {
+   "Actions": [
+    {
+     "Type": "SetAutoEquippableCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAutoEquippableCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    }
+   ],
+   "Name": "005009 - Castle_Crafting_Q5"
+  },
+  "5010": {
+   "Actions": [
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    }
+   ],
+   "Name": "005010 - CASTLE_CRAFTING_Q8"
+  },
+  "5011": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "CastleRenovationLevel": "RenovationLevel3",
+     "Type": "SetCastleRenovationLevelAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    }
+   ],
+   "Name": "005011 - CASTLE_CRAFTING_2ND_FLOOR_COMPLETE"
+  },
+  "5012": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    }
+   ],
+   "Name": "005012 - CASTLE_CRAFTING_Q10"
+  },
+  "5013": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "CastleRenovationLevel": "RenovationLevel4",
+     "Type": "SetCastleRenovationLevelAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "GrantPrivilegesAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    }
+   ],
+   "Name": "005013 - CASTLE_CRAFTING_3RD_FLOOR_COMPLETE"
+  },
+  "5014": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayPlayerCastleInAttackSelectionAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "CastleRenovationLevel": "RenovationComplete",
+     "Type": "SetCastleRenovationLevelAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetAttackSelectionLockOnAssignmentActionSpec"
+    }
+   ],
+   "Name": "005014 - CASTLE_CRAFTING_4TH_FLOOR_COMPLETE"
+  },
+  "65": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClearBuildSelectedEntityAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000065 - Install barricade"
+  },
+  "70": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "SetLastVisitedShopCategoryAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "ClearBuildSelectedEntityAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ShowShopItemsOnlyAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ChangeBuildInteractionAssignmentActionSpec"
+    },
+    {
+     "Type": "ClearBuildSelectedEntityAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetShopFilterLockedAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000070 - Fill up castle"
+  },
+  "80": {
+   "Actions": [
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "PlaySoundEventAssignmentActionSpec"
+    },
+    {
+     "Type": "ClearBuildSelectedEntityAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "UnLockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "LockWidgetsAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "SetSelectableSpecContainersAssignmentActionSpec"
+    },
+    {
+     "Type": "BuildMouseButtonsAssignmentActionSpec"
+    },
+    {
+     "Type": "DisplayObjectiveCompletedAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "CameraAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "SetBuildToolModeAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "UnlockObjectiveAssignmentActionSpec"
+    },
+    {
+     "Type": "LockCameraAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePanelAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    }
+   ],
+   "Name": "000080 - Upgrade castle heart"
+  },
+  "90": {
+   "Actions": [
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "GoToScreenAssignmentActionSpec"
+    },
+    {
+     "Type": "WaitAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "PopupAssignmentActionSpec"
+    },
+    {
+     "Type": "EnableHeroVoiceOverAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    },
+    {
+     "Type": "ClosePopupAssignmentActionSpec"
+    }
+   ],
+   "Name": "000090 - Hero selection"
+  }
+ },
+ "FormatVersion": 1
+}

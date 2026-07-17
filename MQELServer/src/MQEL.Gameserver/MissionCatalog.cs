@@ -1,18 +1,19 @@
 using System.Text.Json.Nodes;
 
-// Loads ALL campaign missions (objectives) from the decrypted spec DB — the data-driven source for the
-// MissionManager. One file: GeneralSettings/OBJECTIVESETTINGS.JSON ("Objectives":[...]). Every distinct
-// condition/reward $type in that file is finite and mapped here (see code-analysis/rest-api/objectives.md);
-// nothing is hardcoded per-mission. New custom missions later = more MissionDefs feeding the same engine.
+// Loads ALL campaign missions (objectives) from the server's packed game data (gamedata/missions.json — see
+// GameData) — the data-driven source for the MissionManager. The condition/reward kinds are a finite set,
+// normalised at pack time from the spec DB's $type envelopes; nothing is hardcoded per-mission. New custom
+// missions later = more MissionDefs feeding the same engine.
 sealed class MissionCatalog
 {
     // ---- condition (one per Conditions[] entry) ---------------------------------------------------------
     // Kind ∈ CastleEntered | CastleCompleted | Destroyed | CPBuilt | BuildingRank | Built | CastleValid.
     // Server-EVALUABLE from an EndAttack: CastleEntered, CastleCompleted, Destroyed (the "Attack" category).
     // The build kinds load but are client-completed (ClientSideCompletion) — the engine won't score them.
+    // A kind the packer didn't recognise is carried through as its raw spec type: it loads, and is never met.
     public sealed record Cond(string Kind, string? ItemType, int SpecContainerId, int Count, int Rank);
 
-    // ---- reward (one per Reward.RewardItems[] entry) ----------------------------------------------------
+    // ---- reward (one per Rewards[] entry) ---------------------------------------------------------------
     // Kind ∈ Materials | Currency | Xp | Item.
     public sealed record Reward(string Kind, string? CurrencyType, int Amount, int Xp,
                                 IReadOnlyList<(int Id, int Quantity)> Materials,
@@ -30,97 +31,54 @@ sealed class MissionCatalog
     public int Count => _byId.Count;
     public Def? Get(int id) => _byId.TryGetValue(id, out var d) ? d : null;
 
-    // Strip the ".NET contract" envelope ("Ns.Ns.Name, Assembly") down to the bare type name.
-    static string ShortType(JsonNode? n)
-    {
-        var s = (string?)n ?? "";
-        int comma = s.IndexOf(','); if (comma >= 0) s = s[..comma];
-        int dot = s.LastIndexOf('.'); return dot >= 0 ? s[(dot + 1)..] : s;
-    }
     static int I(JsonNode? n, int dflt = 0) => n is null ? dflt : (int?)n ?? dflt;
     static string? S(JsonNode? n) => (string?)n;
 
-    public static MissionCatalog Load(string specRoot)
+    public static MissionCatalog Load(string dataDir)
     {
         var c = new MissionCatalog();
-        var doc = JsonNode.Parse(File.ReadAllText(
-            Path.Combine(specRoot, "GameplaySettings", "GeneralSettings", "OBJECTIVESETTINGS.JSON")))!;
-        foreach (var o in doc["Objectives"]?.AsArray() ?? new JsonArray())
+        var root = GameData.Load(dataDir, "missions.json");
+
+        foreach (var m in root["Missions"]?.AsArray() ?? new JsonArray())
         {
-            if (o is not JsonObject obj || obj["Id"] is null) continue;
-            int id = I(obj["Id"]);
+            if (m is not JsonObject obj || obj["Id"] is null) continue;
 
             var conds = new List<Cond>();
             foreach (var cn in obj["Conditions"]?.AsArray() ?? new JsonArray())
-            {
-                if (cn is not JsonObject co) continue;
-                conds.Add(ShortType(co["$type"]) switch
-                {
-                    "CastleEnteredCondition"             => new Cond("CastleEntered", null, 0, 0, 0),
-                    "CastleCompletedCondition"           => new Cond("CastleCompleted", null, 0, 0, 0),
-                    "DefenseIngredientDestroyedCondition"=> new Cond("Destroyed", S(co["ItemType"]), I(co["SpecContainerId"]), I(co["Count"], 1), 0),
-                    "ConstructionPointsBuiltCondition"   => new Cond("CPBuilt", null, 0, I(co["Count"], 1), 0),
-                    "BuildingRankCondition"              => new Cond("BuildingRank", null, I(co["SpecContainerId"]), I(co["Count"], 1), I(co["Rank"], 1)),
-                    "DefenseIngredientBuiltCondition"    => new Cond("Built", S(co["ItemType"]), 0, I(co["Count"], 1), 0),
-                    "CastleValidityCondition"            => new Cond("CastleValid", null, 0, 0, 0),
-                    var other                            => new Cond(other, null, 0, 0, 0),   // unknown → loaded, never auto-met
-                });
-            }
+                if (cn is JsonObject co)
+                    conds.Add(new Cond(S(co["Kind"]) ?? "", S(co["ItemType"]),
+                                       I(co["SpecContainerId"]), I(co["Count"]), I(co["Rank"])));
 
             var rewards = new List<Reward>();
-            void AddRewards(JsonNode? rewardObj)
+            foreach (var rn in obj["Rewards"]?.AsArray() ?? new JsonArray())
             {
-                foreach (var rn in rewardObj?["RewardItems"]?.AsArray() ?? new JsonArray())
-                {
-                    if (rn is not JsonObject ro) continue;
-                    switch (ShortType(ro["$type"]))
-                    {
-                        case "CurrencyAmountRewardItem":
-                            rewards.Add(new Reward("Currency", S(ro["CurrencyAmount"]?["CurrencyType"]), I(ro["CurrencyAmount"]?["Amount"]), 0, Array.Empty<(int, int)>(), 0, 0, 0));
-                            break;
-                        case "CraftingMaterialsRewardItem":
-                            var mats = new List<(int, int)>();
-                            foreach (var m in ro["CraftingMaterials"]?.AsArray() ?? new JsonArray())
-                                if (m is JsonObject mo) mats.Add((I(mo["Id"]), I(mo["Quantity"], 1)));
-                            rewards.Add(new Reward("Materials", null, 0, 0, mats, 0, 0, 0));
-                            break;
-                        case "XpRewardItem":
-                            rewards.Add(new Reward("Xp", null, 0, I(ro["Xp"]), Array.Empty<(int, int)>(), 0, 0, 0));
-                            break;
-                        case "InventoryItemRewardItem":
-                            var item = ro["Item"];
-                            rewards.Add(new Reward("Item", null, 0, 0, Array.Empty<(int, int)>(),
-                                I(item?["TemplateId"]), I(item?["ItemLevel"], 1), I(item?["ArchetypeId"])));
-                            break;
-                    }
-                }
+                if (rn is not JsonObject ro) continue;
+                var mats = new List<(int, int)>();
+                foreach (var mn in ro["Materials"]?.AsArray() ?? new JsonArray())
+                    if (mn is JsonObject mo) mats.Add((I(mo["Id"]), I(mo["Quantity"], 1)));
+                rewards.Add(new Reward(S(ro["Kind"]) ?? "", S(ro["CurrencyType"]), I(ro["Amount"]), I(ro["Xp"]),
+                                       mats, I(ro["ItemTemplateId"]), I(ro["ItemLevel"], 1), I(ro["ItemArchetypeId"])));
             }
-            AddRewards(obj["Reward"]);
-            foreach (var ph in obj["PerHeroReward"]?.AsObject() ?? new JsonObject()) AddRewards(ph.Value);
 
             var requires = new List<int>();
-            foreach (var rq in obj["Requirements"]?.AsArray() ?? new JsonArray())
-                if (rq is JsonObject rqo && ShortType(rqo["$type"]) == "ObjectiveCompletedObjectiveRequirement")
-                    requires.Add(I(rqo["ObjectiveId"]));
+            foreach (var rq in obj["RequiresObjectiveIds"]?.AsArray() ?? new JsonArray()) requires.Add(I(rq));
 
             var castleTypes = new List<string>();
             foreach (var ct in obj["CastleTypes"]?.AsArray() ?? new JsonArray())
                 if ((string?)ct is { } cts) castleTypes.Add(cts);
 
+            int id = I(obj["Id"]);
             c._byId[id] = new Def(
                 id,
                 S(obj["Category"]) ?? "",
-                ShortType(obj["$type"]),
-                S(obj["CastleId"]?["CastleType"]),
-                obj["CastleId"]?["Id"] is { } cid ? (int?)cid : null,
+                S(obj["Type"]) ?? "",
+                S(obj["CastleType"]),
+                obj["CastleId"] is { } cid ? (int?)cid : null,
                 castleTypes,
                 conds, rewards, requires,
-                (bool?)obj["ManualPopupTriggerOnCompletion"] ?? false,
+                (bool?)obj["ManualPopupOnCompletion"] ?? false,
                 (bool?)obj["ClientSideCompletion"] ?? false);
         }
         return c;
     }
-
-    // game-data/settings-extracted lookup (shared convention with ItemCatalog).
-    public static string? FindSpecRoot() => ItemCatalog.FindSpecRoot();
 }

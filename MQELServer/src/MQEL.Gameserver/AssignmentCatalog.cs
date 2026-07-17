@@ -1,46 +1,45 @@
 using System.Text.Json.Nodes;
 
-// Resolves an (AssignmentId, ActionIndex) pair back to the actual AssignmentActionSpec from the decrypted spec
-// DB. Needed because the client's ExecuteAssignmentActionCommand carries ONLY {AssignmentId, ActionIndex}
-// (command-queue.md §5.7) — never the action's payload — so the server must already know what that action IS to
-// react to it (e.g. SetCastleRenovationLevelAssignmentActionSpec{CastleRenovationLevel}). Folder names encode the
-// id ("005007 - Castle_Crafting_1st_Floor_Complete"); parsed once at load. Files are parsed lazily + cached on
-// first lookup — 100+ assignments exist, most are never queried.
+// Resolves an (AssignmentId, ActionIndex) pair back to an assignment action, from the server's packed game data
+// (gamedata/assignments.json — see GameData). Needed because the client's ExecuteAssignmentActionCommand carries
+// ONLY {AssignmentId, ActionIndex} (command-queue.md §5.7) — never the action's payload — so the server must
+// already know what that action IS to react to it (e.g. SetCastleRenovationLevelAssignmentActionSpec).
+//
+// Actions are POSITIONAL: ActionIndex indexes the packed array, so the packer emits an entry for EVERY action
+// (bare {"Type"} for ones we don't model) rather than filtering — filtering would shift later indices. Only the
+// action types the server acts on carry a payload; add fields in tools/pack_gamedata.py and re-pack if that grows.
 sealed class AssignmentCatalog
 {
-    readonly Dictionary<int, string> _pathById = new();
-    readonly Dictionary<int, JsonArray> _actionsById = new();
+    // One action: its spec type (short name, e.g. "SetCastleRenovationLevelAssignmentActionSpec") plus the
+    // payload fields the server reads. Null payload = an action we don't model; callers check Type first.
+    public sealed record Action(string Type, string? CastleRenovationLevel);
 
-    public static AssignmentCatalog Load(string specRoot)
+    readonly Dictionary<int, IReadOnlyList<Action>> _actionsById = new();
+
+    public int Count => _actionsById.Count;
+
+    public static AssignmentCatalog Load(string dataDir)
     {
         var c = new AssignmentCatalog();
-        var dir = Path.Combine(specRoot, "GameplaySettings", "Assignments");
-        foreach (var folder in Directory.EnumerateDirectories(dir))
+        var root = GameData.Load(dataDir, "assignments.json");
+
+        foreach (var kv in root["Assignments"]?.AsObject() ?? new JsonObject())
         {
-            var name = Path.GetFileName(folder);
-            int sep = name.IndexOf(" - ", StringComparison.Ordinal);
-            var idPart = sep >= 0 ? name[..sep] : name;
-            if (int.TryParse(idPart, out var id))
-                c._pathById[id] = folder;
+            if (kv.Value is not JsonObject a || !int.TryParse(kv.Key, out var id)) continue;
+            var actions = new List<Action>();
+            foreach (var an in a["Actions"]?.AsArray() ?? new JsonArray())
+                actions.Add(an is JsonObject ao
+                    ? new Action((string?)ao["Type"] ?? "", (string?)ao["CastleRenovationLevel"])
+                    : new Action("", null));
+            c._actionsById[id] = actions;
         }
         return c;
     }
 
-    // Returns the JsonObject at Actions[actionIndex] for the given assignment, or null if the assignment/index
-    // is unknown. Callers check its "$type" before acting on any field.
-    public JsonObject? GetAction(int assignmentId, int actionIndex)
-    {
-        if (!_actionsById.TryGetValue(assignmentId, out var actions))
-        {
-            if (!_pathById.TryGetValue(assignmentId, out var folder)) return null;
-            var file = Path.Combine(folder, "GAMEPLAY.JSON");
-            actions = File.Exists(file) && JsonNode.Parse(File.ReadAllText(file)) is JsonArray doc
-                ? (doc[0]?["Actions"] as JsonArray ?? new JsonArray())
-                : new JsonArray();
-            _actionsById[assignmentId] = actions;
-        }
-        return actionIndex >= 0 && actionIndex < actions.Count ? actions[actionIndex] as JsonObject : null;
-    }
-
-    public static string? FindSpecRoot() => ItemCatalog.FindSpecRoot();
+    // The action at Actions[actionIndex] for the given assignment, or null if the assignment/index is unknown.
+    public Action? GetAction(int assignmentId, int actionIndex) =>
+        _actionsById.TryGetValue(assignmentId, out var actions)
+        && actionIndex >= 0 && actionIndex < actions.Count
+            ? actions[actionIndex]
+            : null;
 }

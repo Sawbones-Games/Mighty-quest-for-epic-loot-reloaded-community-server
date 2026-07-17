@@ -170,15 +170,15 @@ static class GameEndpoints
                     else if (type.Contains("ExecuteAssignmentActionCommand"))
                     {
                         // The command itself carries ONLY {AssignmentId, ActionIndex} (command-queue.md §5.7) — the
-                        // client never sends the action's payload. Look the action up in the spec DB via
+                        // client never sends the action's payload. Look the action up in the packed data via
                         // AssignmentCatalog to learn what it actually is. Today the only one we react to is
                         // SetCastleRenovationLevelAssignmentActionSpec (the castle-build system's one server-bound
                         // mutation — build_get*/buildingNavBar_* are engine-local, never .hqs endpoints).
                         if (c.TryGetProperty("AssignmentId", out var eAid) && eAid.TryGetInt32(out var eAidv) &&
                             c.TryGetProperty("ActionIndex", out var eIdx) && eIdx.TryGetInt32(out var eIdxv) &&
                             deps.AssignmentCatalog.GetAction(eAidv, eIdxv) is { } action &&
-                            (string?)action["$type"] is { } atype && atype.Contains("SetCastleRenovationLevelAssignmentActionSpec") &&
-                            (string?)action["CastleRenovationLevel"] is { } levelName &&
+                            action.Type.Contains("SetCastleRenovationLevelAssignmentActionSpec") &&
+                            action.CastleRenovationLevel is { } levelName &&
                             CastleRenovationCatalog.Ordinal(levelName) is int newLevel and >= 0)
                         {
                             foreach (var (materialId, qty) in deps.CastleRenovation.CostFor(levelName))
@@ -631,6 +631,10 @@ static class GameEndpoints
         deps.WireLog($"EndAttack castle={gameState.LastAttackCastle} SCORED gold +{goldGained} life +{lifeGained} xp +{xpGained} (total {totalXp}) items {lootItems.Count}; mission notifs {missionNots.Count}; levelUp-moved-last {levelUps.Count}");
         return Results.Content(end.ToJsonString(deps.JsonOpts), "application/json");
     }
+
+    // The leaderboard panel — generated from the live account (empty competition), extracted to its own file.
+    if (SeasonalCompetitionEndpoints.TryHandle(path, gameState, deps) is { } seasonalResult)
+        return seasonalResult;
 
         return null;   // no game handler matched -> caller falls through to the static dispatcher
     }
