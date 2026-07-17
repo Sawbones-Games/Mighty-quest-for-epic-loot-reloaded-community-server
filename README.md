@@ -44,6 +44,37 @@ server (the server routes to a single account today; per-user session/account ro
 plus the **castle building / renovation** system and the wider metagame (shop, inventory, PvP). See
 [`docs/`](docs/) for how each subsystem works.
 
+## How to run
+
+Windows, the game on your own Steam account, and about ten minutes.
+
+**1. Install the [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)** (x64) — the server runs on it.
+
+**2. Download this repo** — the green **`Code`** button → **Download ZIP** → unzip it.
+
+**3. Start the server.** Open a terminal in the `MQELServer` folder (in Explorer, type `cmd` in the folder's
+address bar and press Enter), then run:
+
+```sh
+dotnet dev-certs https -ep src/MQEL.Gameserver/localhost.pfx -p mqel
+dotnet run --project src/MQEL.Gameserver
+```
+
+The first command creates the local TLS cert the game requires; the second starts the server on
+`http://localhost:8080` (also the admin dashboard) and `https://localhost:8443`. Leave the terminal open while
+you play, and allow it through the firewall if Windows asks.
+
+**4. Install the game** from Steam if you don't have it — `steam://install/239220` (delisted, but still
+installs if you own it).
+
+**5. Run the patcher.** In `tools/mqel-patcher`, run `MqelPatcher.exe`. It drops the cert-bypass proxy into the
+game folder and points the launcher at your server — it touches only the game folder and Steam's Play button,
+and uninstalling the game reverts it.
+
+**6. Press Play in Steam.** The game connects to your server.
+
+To host for other players rather than just yourself, see [Point the game client at it](#point-the-game-client-at-it).
+
 ## How it works
 
 The client talks to its backend over plain **HTTP/JSON REST** (not binary netcode), which makes this far
